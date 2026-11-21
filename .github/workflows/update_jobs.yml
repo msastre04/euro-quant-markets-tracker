@@ -1,0 +1,37 @@
+name: Update European Quant & Markets Internships
+
+on:
+  schedule:
+    # Runs every day at 06:30 UTC (07:30 Paris time)
+    - cron: '30 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run internship scraper
+        run: python scraper/fetch_jobs.py
+
+      - name: Commit and push updated internships.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/internships.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update internships data [skip ci]" && git push)
