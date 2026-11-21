@@ -1,0 +1,509 @@
+[
+  {
+    "name": "BNP Paribas (CIB)",
+    "category": "Banque",
+    "hubs": [
+      "Paris",
+      "Londres",
+      "Francfort",
+      "Milan"
+    ],
+    "careers_url": "https://group.bnpparibas/emploi-carriere/toutes-offres-emploi",
+    "ats": "custom"
+  },
+  {
+    "name": "Société Générale (SG CIB)",
+    "category": "Banque",
+    "hubs": [
+      "Paris",
+      "Londres",
+      "Francfort",
+      "Milan"
+    ],
+    "careers_url": "https://careers.societegenerale.com/rechercher",
+    "ats": "custom"
+  },
+  {
+    "name": "Crédit Agricole CIB",
+    "category": "Banque",
+    "hubs": [
+      "Paris",
+      "Londres",
+      "Francfort",
+      "Milan"
+    ],
+    "careers_url": "https://jobs.ca-cib.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "Natixis CIB (Groupe BPCE)",
+    "category": "Banque",
+    "hubs": [
+      "Paris",
+      "Londres",
+      "Francfort"
+    ],
+    "careers_url": "https://recrutement.natixis.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "ODDO BHF",
+    "category": "Banque",
+    "hubs": [
+      "Paris",
+      "Francfort",
+      "Genève"
+    ],
+    "careers_url": "https://www.oddo-bhf.com/fr/carrieres/",
+    "ats": "custom"
+  },
+  {
+    "name": "CIC Market Solutions",
+    "category": "Banque",
+    "hubs": [
+      "Paris"
+    ],
+    "careers_url": "https://www.cic.fr/fr/banques/le-cic/recrutement/",
+    "ats": "custom"
+  },
+  {
+    "name": "LCL (Banque des Entreprises / Marchés)",
+    "category": "Banque",
+    "hubs": [
+      "Paris"
+    ],
+    "careers_url": "https://jobs.lcl.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "Deutsche Bank",
+    "category": "Banque",
+    "hubs": [
+      "Francfort",
+      "Londres",
+      "Paris",
+      "Milan"
+    ],
+    "careers_url": "https://careers.db.com/",
+    "ats": "workday"
+  },
+  {
+    "name": "Commerzbank",
+    "category": "Banque",
+    "hubs": [
+      "Francfort",
+      "Londres"
+    ],
+    "careers_url": "https://jobs.commerzbank.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "UBS",
+    "category": "Banque",
+    "hubs": [
+      "Londres",
+      "Genève",
+      "Paris",
+      "Francfort"
+    ],
+    "careers_url": "https://www.ubs.com/global/en/careers.html",
+    "ats": "custom"
+  },
+  {
+    "name": "Barclays",
+    "category": "Banque",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Francfort"
+    ],
+    "careers_url": "https://search.jobs.barclays/",
+    "ats": "custom"
+  },
+  {
+    "name": "HSBC",
+    "category": "Banque",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Francfort"
+    ],
+    "careers_url": "https://www.hsbc.com/careers",
+    "ats": "custom"
+  },
+  {
+    "name": "UniCredit",
+    "category": "Banque",
+    "hubs": [
+      "Milan",
+      "Francfort",
+      "Londres"
+    ],
+    "careers_url": "https://careers.unicredit.eu/",
+    "ats": "custom"
+  },
+  {
+    "name": "Intesa Sanpaolo (IMI CIB)",
+    "category": "Banque",
+    "hubs": [
+      "Milan",
+      "Londres",
+      "Paris"
+    ],
+    "careers_url": "https://jobs.intesasanpaolo.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "Goldman Sachs",
+    "category": "Banque US",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Francfort",
+      "Milan"
+    ],
+    "careers_url": "https://www.goldmansachs.com/careers/students/programs-and-internships",
+    "ats": "custom"
+  },
+  {
+    "name": "J.P. Morgan",
+    "category": "Banque US",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Francfort",
+      "Milan"
+    ],
+    "careers_url": "https://careers.jpmorgan.com/global/en/students/programs",
+    "ats": "custom"
+  },
+  {
+    "name": "Morgan Stanley",
+    "category": "Banque US",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Francfort",
+      "Milan"
+    ],
+    "careers_url": "https://www.morganstanley.com/people-opportunities/students-graduates",
+    "ats": "custom"
+  },
+  {
+    "name": "Bank of America",
+    "category": "Banque US",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Francfort"
+    ],
+    "careers_url": "https://campus.bankofamerica.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "Citigroup",
+    "category": "Banque US",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Francfort",
+      "Milan"
+    ],
+    "careers_url": "https://jobs.citi.com/students-and-graduates",
+    "ats": "workday"
+  },
+  {
+    "name": "Marex (Marex Solutions)",
+    "category": "Courtier / Broker",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Milan",
+      "Amsterdam"
+    ],
+    "careers_url": "https://www.marex.com/careers/career-opportunities/",
+    "ats": "custom"
+  },
+  {
+    "name": "TP ICAP",
+    "category": "Courtier / Broker",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Genève"
+    ],
+    "careers_url": "https://tpicap.com/tpicap/careers",
+    "ats": "custom"
+  },
+  {
+    "name": "Compagnie Financière Tradition",
+    "category": "Courtier / Broker",
+    "hubs": [
+      "Genève",
+      "Londres",
+      "Paris"
+    ],
+    "careers_url": "https://www.tradition.com/careers/",
+    "ats": "custom"
+  },
+  {
+    "name": "Kepler Cheuvreux",
+    "category": "Courtier / Broker",
+    "hubs": [
+      "Paris",
+      "Francfort",
+      "Genève",
+      "Milan"
+    ],
+    "careers_url": "https://www.keplercheuvreux.com/en/careers/",
+    "ats": "custom"
+  },
+  {
+    "name": "Vitol",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Genève",
+      "Londres"
+    ],
+    "careers_url": "https://www.vitol.com/careers/",
+    "ats": "custom"
+  },
+  {
+    "name": "Trafigura",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Genève",
+      "Londres",
+      "Amsterdam"
+    ],
+    "careers_url": "https://www.trafigura.com/careers/",
+    "ats": "workday"
+  },
+  {
+    "name": "Gunvor Group",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Genève",
+      "Amsterdam"
+    ],
+    "careers_url": "https://gunvorgroup.com/careers/",
+    "ats": "custom"
+  },
+  {
+    "name": "Mercuria",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Genève",
+      "Londres"
+    ],
+    "careers_url": "https://www.mercuria.com/careers",
+    "ats": "custom"
+  },
+  {
+    "name": "TotalEnergies (Trading & Shipping)",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Genève",
+      "Paris",
+      "Londres"
+    ],
+    "careers_url": "https://jobs.totalenergies.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "ENGIE Global Markets",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Paris",
+      "Londres",
+      "Genève"
+    ],
+    "careers_url": "https://jobs.engie.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "EDF Trading",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Londres",
+      "Paris"
+    ],
+    "careers_url": "https://www.edftrading.com/careers",
+    "ats": "custom"
+  },
+  {
+    "name": "RWE Supply & Trading",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Londres",
+      "Genève",
+      "Francfort"
+    ],
+    "careers_url": "https://www.rwe.com/en/rwe-careers-portal/",
+    "ats": "custom"
+  },
+  {
+    "name": "Glencore",
+    "category": "Commodities & Energy",
+    "hubs": [
+      "Genève",
+      "Londres"
+    ],
+    "careers_url": "https://www.glencore.com/careers",
+    "ats": "custom"
+  },
+  {
+    "name": "Optiver",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Amsterdam",
+      "Londres"
+    ],
+    "careers_url": "https://optiver.com/working-at-optiver/career-opportunities/",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "IMC Trading",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Amsterdam",
+      "Londres"
+    ],
+    "careers_url": "https://www.imc.com/eu/careers",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Flow Traders",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Amsterdam",
+      "Londres",
+      "Paris",
+      "Milan"
+    ],
+    "careers_url": "https://www.flowtraders.com/careers",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Jane Street",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Londres",
+      "Amsterdam"
+    ],
+    "careers_url": "https://www.janestreet.com/join-jane-street/open-roles/",
+    "ats": "custom"
+  },
+  {
+    "name": "Citadel Securities",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Londres",
+      "Paris"
+    ],
+    "careers_url": "https://www.citadelsecurities.com/careers/",
+    "ats": "custom"
+  },
+  {
+    "name": "Jump Trading",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Londres",
+      "Amsterdam",
+      "Paris"
+    ],
+    "careers_url": "https://www.jumptrading.com/careers/",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Hudson River Trading",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Londres"
+    ],
+    "careers_url": "https://www.hudsonrivertrading.com/careers/",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Susquehanna (SIG)",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Londres",
+      "Amsterdam"
+    ],
+    "careers_url": "https://careers.sig.com/",
+    "ats": "custom"
+  },
+  {
+    "name": "Da Vinci Derivatives",
+    "category": "Market Maker / Prop",
+    "hubs": [
+      "Amsterdam"
+    ],
+    "careers_url": "https://davinciderivatives.com/careers/",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Qube Research & Technologies (QRT)",
+    "category": "Hedge Fund / Quant",
+    "hubs": [
+      "Paris",
+      "Londres"
+    ],
+    "careers_url": "https://www.qube-rt.com/careers/",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Capital Fund Management (CFM)",
+    "category": "Hedge Fund / Quant",
+    "hubs": [
+      "Paris",
+      "Londres"
+    ],
+    "careers_url": "https://www.cfm.fr/careers/",
+    "ats": "custom"
+  },
+  {
+    "name": "Squarepoint Capital",
+    "category": "Hedge Fund / Quant",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Genève"
+    ],
+    "careers_url": "https://www.squarepoint-capital.com/careers",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Millennium Management",
+    "category": "Hedge Fund / Quant",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Genève"
+    ],
+    "careers_url": "https://www.mlp.com/careers/",
+    "ats": "custom"
+  },
+  {
+    "name": "Point72",
+    "category": "Hedge Fund / Quant",
+    "hubs": [
+      "Londres",
+      "Paris"
+    ],
+    "careers_url": "https://careers.point72.com/",
+    "ats": "greenhouse"
+  },
+  {
+    "name": "Balyasny Asset Management",
+    "category": "Hedge Fund / Quant",
+    "hubs": [
+      "Londres",
+      "Paris",
+      "Genève"
+    ],
+    "careers_url": "https://www.bamfunds.com/careers",
+    "ats": "greenhouse"
+  }
+]
