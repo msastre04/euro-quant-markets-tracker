@@ -65,13 +65,16 @@
       <button class="tab" data-tab="companies">
         Annuaire des acteurs <span class="tab-count" id="tab-count-companies">0</span>
       </button>
+      <button class="tab" data-tab="outreach">
+        Cold Email & Contacts <span class="tab-count">V2</span>
+      </button>
     </nav>
 
     <!-- TAB 1: INTERNSHIPS -->
     <section id="view-internships" class="tab-view active">
       <div class="filters-bar">
         <div class="filter-group search-group">
-          <input type="text" id="filter-search" placeholder="Rechercher (ex: Delta One, Marex, Oil, QRT, Python...)" />
+          <input type="text" id="filter-search" placeholder="Rechercher (ex: Delta One, Marex, Total, SG, CACIB, QRT...)" />
         </div>
         <div class="filter-group">
           <select id="filter-city">
@@ -151,7 +154,7 @@
     <section id="view-companies" class="tab-view">
       <div class="filters-bar">
         <div class="filter-group search-group">
-          <input type="text" id="comp-search" placeholder="Filtrer une entreprise (ex: ODDO, Marex, Vitol, CIC...)" />
+          <input type="text" id="comp-search" placeholder="Filtrer une entreprise (ex: SG, Total, CACIB, ODDO, Marex, Vitol...)" />
         </div>
         <div class="filter-group">
           <select id="comp-city">
@@ -179,6 +182,105 @@
 
       <div class="companies-grid" id="companies-grid"></div>
     </section>
+
+    <!-- TAB 3: COLD EMAIL & CONTACT FINDER -->
+    <section id="view-outreach" class="tab-view">
+      <div class="outreach-layout">
+        <!-- Left column: X-Ray Search + Email Generator -->
+        <div class="outreach-card">
+          <h2>1. Trouver un décideur sur le desk (X-Ray LinkedIn)</h2>
+          <p class="outreach-desc">
+            Idéal pour les banques FR (SG, BNPP, CACIB, ODDO, CIC) et maisons d'énergie (TotalEnergies, Vitol, Marex) où les stages se décrochent souvent par contact direct avant publication.
+          </p>
+
+          <div class="form-grid" style="margin-top: 14px;">
+            <div class="form-field">
+              <label>Entreprise cible</label>
+              <select id="outreach-company"></select>
+            </div>
+            <div class="form-field">
+              <label>Ville / Hub</label>
+              <select id="outreach-city">
+                <option value="Paris">Paris</option>
+                <option value="Londres">Londres</option>
+                <option value="Genève">Genève</option>
+                <option value="Amsterdam">Amsterdam</option>
+                <option value="Francfort">Francfort</option>
+                <option value="Milan">Milan</option>
+              </select>
+            </div>
+            <div class="form-field full">
+              <label>Desk / Spécialité visée</label>
+              <select id="outreach-desk">
+                <option value="Delta One OR Equity Derivatives">Delta One / Equity Derivatives</option>
+                <option value="Commodities OR Energy Trading OR Oil OR Power">Commodities / Energy / Oil & Power</option>
+                <option value="Structuring OR Structured Products">Structuring / Produits Structurés</option>
+                <option value="Fixed Income OR Rates OR Credit OR FX">Fixed Income / Rates / Credit / FX</option>
+                <option value="Quantitative Research OR Quant Trader">Quantitative Research / Quant Trading</option>
+                <option value="Data Science OR Algorithmic Trading">Data Science / Algo Execution</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="xray-actions">
+            <a id="btn-xray-linkedin" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              Rechercher les profils du desk (Google X-Ray LinkedIn) ↗
+            </a>
+            <a id="btn-xray-alumni" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              Filtrer Alumni CentraleSupélec ↗
+            </a>
+          </div>
+
+          <hr class="divider" />
+
+          <h2>2. Déduire l'adresse email pro</h2>
+          <div class="form-grid" style="margin-top: 12px;">
+            <div class="form-field">
+              <label>Prénom du contact</label>
+              <input type="text" id="outreach-firstname" placeholder="ex: Jean" />
+            </div>
+            <div class="form-field">
+              <label>Nom du contact</label>
+              <input type="text" id="outreach-lastname" placeholder="ex: Dupont" />
+            </div>
+          </div>
+
+          <div id="email-results" class="email-results-box">
+            <span class="empty-hint">Entre un prénom et un nom pour générer les formats exacts de l'entreprise.</span>
+          </div>
+        </div>
+
+        <!-- Right column: Cold Email Templates -->
+        <div class="outreach-card">
+          <div class="template-header">
+            <h2>3. Template Cold Email (Format Court Front Office)</h2>
+            <select id="outreach-lang" style="width: auto;">
+              <option value="fr">Français (Paris / Genève)</option>
+              <option value="en">English (Londres / Genève / Amsterdam)</option>
+            </select>
+          </div>
+          <p class="outreach-desc">
+            Les traders et quants lisent leurs mails entre deux cotations : 5 lignes max, direct, sans blabla.
+          </p>
+
+          <div class="form-field" style="margin-top: 14px;">
+            <label>Objet du mail</label>
+            <div class="copy-row">
+              <input type="text" id="tpl-subject" readonly />
+              <button type="button" class="btn btn-secondary" onclick="copyField('tpl-subject')">Copier</button>
+            </div>
+          </div>
+
+          <div class="form-field" style="margin-top: 12px;">
+            <label>Corps du message (personnalisable avant copie)</label>
+            <textarea id="tpl-body" rows="12"></textarea>
+            <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+              <button type="button" class="btn btn-primary" onclick="copyField('tpl-body')">Copier le message complet</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- MODAL: ADD INTERNSHIP -->
@@ -192,7 +294,7 @@
         <div class="form-grid">
           <div class="form-field">
             <label>Entreprise *</label>
-            <input type="text" id="add-company" required placeholder="ex: Marex, BNP Paribas, Vitol..." />
+            <input type="text" id="add-company" required placeholder="ex: TotalEnergies, SG CIB, CACIB, Marex..." />
           </div>
           <div class="form-field">
             <label>Catégorie *</label>
@@ -207,7 +309,7 @@
           </div>
           <div class="form-field full">
             <label>Intitulé exact du poste *</label>
-            <input type="text" id="add-title" required placeholder="ex: Off-Cycle Intern - Commodities Structuring" />
+            <input type="text" id="add-title" required placeholder="ex: Stage 6 mois - Trading Commodities / Delta One" />
           </div>
           <div class="form-field">
             <label>Métier Front Office *</label>

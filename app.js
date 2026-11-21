@@ -15,6 +15,56 @@ const STATUS_OPTIONS = [
   "Refusé"
 ];
 
+// Known email domain patterns for major banks, brokers & commodities houses
+const COMPANY_DOMAINS = {
+  "Société Générale (SG CIB)": ["sgcib.com", "socgen.com"],
+  "BNP Paribas (CIB)": ["bnpparibas.com", "uk.bnpparibas.com"],
+  "Crédit Agricole CIB": ["ca-cib.com"],
+  "Natixis CIB (Groupe BPCE)": ["natixis.com"],
+  "ODDO BHF": ["oddo-bhf.com"],
+  "CIC Market Solutions": ["cic.fr"],
+  "LCL (Banque des Entreprises / Marchés)": ["lcl.fr"],
+  "TotalEnergies (Trading & Shipping)": ["totalenergies.com"],
+  "ENGIE Global Markets": ["engie.com"],
+  "EDF Trading": ["edftrading.com"],
+  "Marex (Marex Solutions)": ["marex.com"],
+  "Vitol": ["vitol.com"],
+  "Trafigura": ["trafigura.com"],
+  "Gunvor Group": ["gunvorgroup.com"],
+  "Mercuria": ["mercuria.com"],
+  "Glencore": ["glencore.com"],
+  "RWE Supply & Trading": ["rwe.com"],
+  "Deutsche Bank": ["db.com"],
+  "Goldman Sachs": ["gs.com"],
+  "J.P. Morgan": ["jpmorgan.com", "jpmchase.com"],
+  "Morgan Stanley": ["morganstanley.com"],
+  "Bank of America": ["bofa.com"],
+  "Citigroup": ["citi.com"],
+  "UBS": ["ubs.com"],
+  "Barclays": ["barclays.com"],
+  "HSBC": ["hsbc.com"],
+  "UniCredit": ["unicredit.eu"],
+  "Intesa Sanpaolo (IMI CIB)": ["intesasanpaolo.com"],
+  "TP ICAP": ["tpicap.com"],
+  "Compagnie Financière Tradition": ["tradition.com"],
+  "Kepler Cheuvreux": ["keplercheuvreux.com"],
+  "Optiver": ["optiver.com"],
+  "IMC Trading": ["imc.com"],
+  "Flow Traders": ["flowtraders.com"],
+  "Jane Street": ["janestreet.com"],
+  "Citadel Securities": ["citadelsecurities.com"],
+  "Jump Trading": ["jumptrading.com"],
+  "Hudson River Trading": ["hudsonrivertrading.com"],
+  "Susquehanna (SIG)": ["sig.com"],
+  "Da Vinci Derivatives": ["davinciderivatives.com"],
+  "Qube Research & Technologies (QRT)": ["qube-rt.com"],
+  "Capital Fund Management (CFM)": ["cfm.fr"],
+  "Squarepoint Capital": ["squarepoint-capital.com"],
+  "Millennium Management": ["mlp.com"],
+  "Point72": ["point72.com"],
+  "Balyasny Asset Management": ["bamfunds.com"]
+};
+
 function getStatusClass(status) {
   switch (status) {
     case "Postulé": return "status-applied";
@@ -52,6 +102,7 @@ async function init() {
   document.getElementById("tab-count-companies").textContent = allCompanies.length;
   renderInternships();
   renderCompanies();
+  initOutreachTab();
   updateKPIs();
   bindEvents();
 }
@@ -139,7 +190,7 @@ function renderInternships() {
         </td>
         <td>
           <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener noreferrer" class="apply-link">
-            Postuler ↗
+            Offre ↗
           </a>
         </td>
       </tr>
@@ -199,8 +250,104 @@ function renderCompanies() {
   `).join("");
 }
 
+/* OUTREACH / COLD EMAIL TAB LOGIC */
+function initOutreachTab() {
+  const select = document.getElementById("outreach-company");
+  if (!select) return;
+  select.innerHTML = allCompanies
+    .map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`)
+    .join("");
+  updateOutreachTools();
+}
+
+function normalizeStr(s) {
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
+function updateOutreachTools() {
+  const company = document.getElementById("outreach-company").value;
+  const city = document.getElementById("outreach-city").value;
+  const desk = document.getElementById("outreach-desk").value;
+  const first = normalizeStr(document.getElementById("outreach-firstname").value);
+  const last = normalizeStr(document.getElementById("outreach-lastname").value);
+  const lang = document.getElementById("outreach-lang").value;
+
+  const cleanCompany = company.replace(/\(.*?\)/g, "").trim();
+  const cityQuery = city === "Londres" ? "London" : city === "Genève" ? "Geneva" : city === "Francfort" ? "Frankfurt" : city;
+
+  const qGeneral = `site:linkedin.com/in/ "${cleanCompany}" "${cityQuery}" (${desk})`;
+  const qAlumni = `site:linkedin.com/in/ "${cleanCompany}" "CentraleSupélec" (${desk})`;
+
+  document.getElementById("btn-xray-linkedin").href = `https://www.google.com/search?q=${encodeURIComponent(qGeneral)}`;
+  document.getElementById("btn-xray-alumni").href = `https://www.google.com/search?q=${encodeURIComponent(qAlumni)}`;
+
+  // Email generation
+  const resultsBox = document.getElementById("email-results");
+  if (!first || !last) {
+    resultsBox.innerHTML = `<span class="empty-hint">Entre un prénom et un nom pour générer les formats exacts de ${escapeHtml(company)}.</span>`;
+  } else {
+    const domains = COMPANY_DOMAINS[company] || [cleanCompany.toLowerCase().replace(/[^a-z0-9]/g, "") + ".com"];
+    const patterns = [];
+    domains.forEach(dom => {
+      patterns.push(`${first}.${last}@${dom}`);
+      patterns.push(`${first[0]}${last}@${dom}`);
+      if (dom === "bnpparibas.com" || dom === "ca-cib.com") {
+        patterns.push(`${first}.${last}@${dom}`);
+      }
+    });
+    const uniqueEmails = [...new Set(patterns)];
+    resultsBox.innerHTML = uniqueEmails.map(em => `
+      <div class="email-pill-row">
+        <span>${escapeHtml(em)}</span>
+        <button type="button" class="btn btn-secondary" style="padding: 3px 8px; font-size: 11px;"
+                onclick="navigator.clipboard.writeText('${em}'); this.textContent='Copié !';">
+          Copier
+        </button>
+      </div>
+    `).join("");
+  }
+
+  // Template update
+  const deskLabel = document.getElementById("outreach-desk").selectedOptions[0]?.text || "Trading / Structuring";
+  const greetingName = document.getElementById("outreach-firstname").value.trim() || "[Prénom]";
+  const subjEl = document.getElementById("tpl-subject");
+  const bodyEl = document.getElementById("tpl-body");
+
+  if (lang === "fr") {
+    subjEl.value = `Candidature stage 6 mois — Desk ${deskLabel} (${city}) — CentraleSupélec`;
+    bodyEl.value = `Bonjour ${greetingName},
+
+Actuellement étudiant en 2e année du cycle ingénieur à CentraleSupélec (spécialisation mathématiques appliquées / finance de marché), je suis à la recherche d'un stage de 6 mois en ${deskLabel} à ${city}.
+
+Votre parcours au sein du desk chez ${cleanCompany} a particulièrement retenu mon attention. Passionné par les produits dérivés, les matières premières et la modélisation quantitative (Python, C++, probabilités), je serais ravi d'échanger 5 minutes avec vous ou de vous transmettre mon CV si votre équipe envisage de recruter un stagiaire prochainement.
+
+Bien cordialement,
+Maxime
+CentraleSupélec — +33 6 XX XX XX XX`;
+  } else {
+    subjEl.value = `Off-Cycle Internship Inquiry — ${deskLabel} (${cityQuery}) — CentraleSupélec`;
+    bodyEl.value = `Hi ${greetingName},
+
+I am currently a 2nd-year engineering student at CentraleSupélec (Applied Mathematics & Quantitative Finance track) looking for a 6-month off-cycle internship on the ${deskLabel} desk in ${cityQuery}.
+
+I have been closely following ${cleanCompany}'s activity in this space and would welcome the opportunity to share my resume or have a brief 5-minute chat if your team is considering taking on an intern in the coming months.
+
+Best regards,
+Maxime
+CentraleSupélec — +33 6 XX XX XX XX`;
+  }
+}
+
+window.copyField = function(id) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.value);
+};
+
 function bindEvents() {
-  // Tabs
   document.querySelectorAll(".tab").forEach(tab => {
     tab.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -210,7 +357,6 @@ function bindEvents() {
     });
   });
 
-  // Internship filters
   ["filter-search", "filter-city", "filter-role", "filter-category", "filter-duration", "filter-my-status"].forEach(id => {
     document.getElementById(id).addEventListener("input", renderInternships);
     document.getElementById(id).addEventListener("change", renderInternships);
@@ -223,13 +369,19 @@ function bindEvents() {
     renderInternships();
   });
 
-  // Company filters
   ["comp-search", "comp-city", "comp-category"].forEach(id => {
     document.getElementById(id).addEventListener("input", renderCompanies);
     document.getElementById(id).addEventListener("change", renderCompanies);
   });
 
-  // Modal
+  ["outreach-company", "outreach-city", "outreach-desk", "outreach-firstname", "outreach-lastname", "outreach-lang"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", updateOutreachTools);
+      el.addEventListener("change", updateOutreachTools);
+    }
+  });
+
   const modal = document.getElementById("modal-add");
   document.getElementById("btn-open-modal").addEventListener("click", () => modal.classList.remove("hidden"));
   document.getElementById("btn-close-modal").addEventListener("click", () => modal.classList.add("hidden"));
@@ -275,7 +427,6 @@ function bindEvents() {
     alert("Bloc JSON copié dans le presse-papiers ! Tu peux le coller dans data/internships.json.");
   });
 
-  // Export / Import personal tracking
   document.getElementById("btn-export").addEventListener("click", () => {
     const payload = {
       exported_at: new Date().toISOString(),

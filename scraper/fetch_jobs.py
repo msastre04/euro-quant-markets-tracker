@@ -2,13 +2,14 @@ import json
 import os
 import re
 import time
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 import requests
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 INTERNSHIPS_FILE = os.path.join(DATA_DIR, "internships.json")
 
-# 1. Greenhouse public boards (verified slugs)
+# 1. Greenhouse public boards
 GREENHOUSE_BOARDS = [
     {"token": "optiver", "company": "Optiver", "category": "Market Maker / Prop"},
     {"token": "imc", "company": "IMC Trading", "category": "Market Maker / Prop"},
@@ -43,42 +44,127 @@ SMARTRECRUITERS_BOARDS = [
     {"token": "Marex", "company": "Marex (Marex Solutions)", "category": "Courtier / Broker"},
     {"token": "Vitol", "company": "Vitol", "category": "Commodities & Energy"},
     {"token": "Trafigura", "company": "Trafigura", "category": "Commodities & Energy"},
+    {"token": "SocieteGenerale", "company": "Société Générale (SG CIB)", "category": "Banque"},
+    {"token": "BNPParibas", "company": "BNP Paribas (CIB)", "category": "Banque"},
+    {"token": "CreditAgricoleCIB", "company": "Crédit Agricole CIB", "category": "Banque"},
+    {"token": "Natixis", "company": "Natixis CIB (Groupe BPCE)", "category": "Banque"},
+    {"token": "TotalEnergies", "company": "TotalEnergies (Trading & Shipping)", "category": "Commodities & Energy"},
+    {"token": "ENGIE", "company": "ENGIE Global Markets", "category": "Commodities & Energy"},
+    {"token": "ODDOBHF", "company": "ODDO BHF", "category": "Banque"},
+]
+
+# 4. Workday public CXS JSON endpoints (used by major banks & commodity houses)
+WORKDAY_BOARDS = [
+    {
+        "company": "Deutsche Bank",
+        "category": "Banque",
+        "url": "https://db.wd3.myworkdayjobs.com/wday/cxs/db/DBWebsite/jobs",
+        "base_job_url": "https://db.wd3.myworkdayjobs.com/en-US/DBWebsite"
+    },
+    {
+        "company": "Citigroup",
+        "category": "Banque US",
+        "url": "https://citi.wd5.myworkdayjobs.com/wday/cxs/citi/2/jobs",
+        "base_job_url": "https://citi.wd5.myworkdayjobs.com/en-US/2"
+    },
+    {
+        "company": "Trafigura",
+        "category": "Commodities & Energy",
+        "url": "https://trafigura.wd3.myworkdayjobs.com/wday/cxs/trafigura/TrafiguraCareerSite/jobs",
+        "base_job_url": "https://trafigura.wd3.myworkdayjobs.com/en-US/TrafiguraCareerSite"
+    },
+    {
+        "company": "BNP Paribas (CIB)",
+        "category": "Banque",
+        "url": "https://bnpparibas.wd3.myworkdayjobs.com/wday/cxs/bnpparibas/bnpparibas/jobs",
+        "base_job_url": "https://bnpparibas.wd3.myworkdayjobs.com/en-US/bnpparibas"
+    },
+    {
+        "company": "TotalEnergies (Trading & Shipping)",
+        "category": "Commodities & Energy",
+        "url": "https://totalenergies.wd3.myworkdayjobs.com/wday/cxs/totalenergies/TotalEnergiesCareers/jobs",
+        "base_job_url": "https://totalenergies.wd3.myworkdayjobs.com/en-US/TotalEnergiesCareers"
+    },
+    {
+        "company": "Barclays",
+        "category": "Banque",
+        "url": "https://barclays.wd3.myworkdayjobs.com/wday/cxs/barclays/External_Career_Site_Barclays/jobs",
+        "base_job_url": "https://barclays.wd3.myworkdayjobs.com/en-US/External_Career_Site_Barclays"
+    },
+]
+
+# 5. Direct RSS / XML / JSON feeds from French banks & energy majors (SG, CACIB, TotalEnergies, Engie)
+RSS_FEEDS = [
+    {
+        "company": "Société Générale (SG CIB)",
+        "category": "Banque",
+        "url": "https://careers.societegenerale.com/en/rss/jobs?search=intern+trading+quant+structuring"
+    },
+    {
+        "company": "Crédit Agricole CIB",
+        "category": "Banque",
+        "url": "https://jobs.ca-cib.com/rss/jobs"
+    },
+    {
+        "company": "TotalEnergies (Trading & Shipping)",
+        "category": "Commodities & Energy",
+        "url": "https://jobs.totalenergies.com/en_US/careers/SearchJobs/feed/"
+    },
 ]
 
 CITY_PATTERNS = {
-    "Paris": [r"\bparis\b", r"\bfrance\b"],
-    "Londres": [r"\blondon\b", r"\blondres\b", r"\bunited kingdom\b", r"\buk\b"],
+    "Paris": [r"\bparis\b", r"\bla d[ée]fense\b", r"\bcourbevoie\b", r"\bpup?teaux\b", r"\bmontrouge\b", r"\bfrance\b"],
+    "Londres": [r"\blondon\b", r"\blondres\b", r"\bcanary wharf\b", r"\bunited kingdom\b"],
     "Genève": [r"\bgeneva\b", r"\bgen[eè]ve\b", r"\bswitzerland\b"],
     "Amsterdam": [r"\bamsterdam\b", r"\bnetherlands\b"],
     "Francfort": [r"\bfrankfurt\b", r"\bfrancfort\b", r"\bgermany\b"],
     "Milan": [r"\bmilan\b", r"\bmilano\b", r"\bitaly\b"],
 }
 
+NON_EU_EXCLUDE = [
+    "sydney", "melbourne", "singapore", "hong kong", "tokyo", "shanghai",
+    "new york", "chicago", "boston", "houston", "san francisco", "toronto",
+    "mumbai", "bengaluru", "bangalore", "dubai", "austin", "seattle"
+]
+
 INTERN_KEYWORDS = [
     "intern", "internship", "stage", "stagiaire", "off-cycle", "off cycle",
     "summer", "graduate", "placement", "trainee", "industrial placement",
-    "spring week", "insight", "analyst program"
+    "spring week", "insight", "analyst program", "césure", "cesure", "vie "
+]
+
+FRONT_OFFICE_KEYWORDS = [
+    "trading", "trader", "structur", "quant", "quantitative", "market",
+    "commodit", "energy", "oil", "gas", "power", "equity", "derivatives",
+    "delta one", "fixed income", "rates", "fx", "credit", "sales",
+    "data scien", "machine learning", "strats", "risk", "portfolio",
+    "execution", "algo", "broker", "research", "pricing"
 ]
 
 EXCLUDE_KEYWORDS = [
     "hr ", "human resources", "recruiter", "talent acquisition", "legal",
     "marketing", "facilities", "receptionist", "office manager", "accounting",
-    "payroll", "events", "executive assistant", "pa to"
+    "payroll", "events", "executive assistant", "pa to", "audit", "compliance",
+    "communication", "rh ", "ressources humaines", "juridique", "comptab"
 ]
 
-def detect_city(location_str: str):
-    loc = (location_str or "").lower()
+def detect_city(location_str: str, title_str: str = ""):
+    combined = f"{location_str or ''} {title_str or ''}".lower()
+    if any(bad in combined for bad in NON_EU_EXCLUDE):
+        return None
     for city, patterns in CITY_PATTERNS.items():
         for pat in patterns:
-            if re.search(pat, loc):
+            if re.search(pat, combined):
                 return city
     return None
 
-def is_relevant_internship(title: str) -> bool:
+def is_relevant_internship(title: str, require_fo_keyword: bool = False) -> bool:
     t = (title or "").lower()
     if not any(k in t for k in INTERN_KEYWORDS):
         return False
     if any(k in t for k in EXCLUDE_KEYWORDS):
+        return False
+    if require_fo_keyword and not any(k in t for k in FRONT_OFFICE_KEYWORDS):
         return False
     return True
 
@@ -108,7 +194,7 @@ def fetch_greenhouse_jobs(headers):
     collected = []
     for board in GREENHOUSE_BOARDS:
         token = board["token"]
-        url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs?content=true"
+        url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs"
         try:
             resp = requests.get(url, headers=headers, timeout=15)
             if resp.status_code != 200:
@@ -119,10 +205,9 @@ def fetch_greenhouse_jobs(headers):
             for j in jobs:
                 title = j.get("title", "")
                 loc_name = (j.get("location") or {}).get("name", "")
-                # Also check offices list if location is generic
-                offices = " ".join([o.get("name", "") for o in j.get("offices", [])])
-                city = detect_city(f"{loc_name} {offices}")
-                if not city or not is_relevant_internship(title):
+                # Strict check on location.name + title so global offices list doesn't mislabel Sydney jobs
+                city = detect_city(loc_name, title)
+                if not city or not is_relevant_internship(title, require_fo_keyword=False):
                     continue
 
                 updated_at = j.get("updated_at") or ""
@@ -142,7 +227,7 @@ def fetch_greenhouse_jobs(headers):
                 })
                 count += 1
             print(f"[GH-OK] {board['company']}: {len(jobs)} total -> {count} stage(s) EU")
-            time.sleep(0.3)
+            time.sleep(0.25)
         except Exception as e:
             print(f"[GH-ERR] {board['company']}: {e}")
     return collected
@@ -162,9 +247,9 @@ def fetch_lever_jobs(headers):
             for j in jobs:
                 title = j.get("text", "")
                 cats = j.get("categories") or {}
-                loc_str = f"{cats.get('location', '')} {' '.join(cats.get('allLocations', []))}"
-                city = detect_city(loc_str)
-                if not city or not is_relevant_internship(title):
+                loc_str = cats.get("location", "")
+                city = detect_city(loc_str, title)
+                if not city or not is_relevant_internship(title, require_fo_keyword=False):
                     continue
 
                 created_ms = j.get("createdAt")
@@ -187,7 +272,7 @@ def fetch_lever_jobs(headers):
                 })
                 count += 1
             print(f"[LV-OK] {board['company']}: {len(jobs)} total -> {count} stage(s) EU")
-            time.sleep(0.3)
+            time.sleep(0.25)
         except Exception as e:
             print(f"[LV-ERR] {board['company']}: {e}")
     return collected
@@ -204,12 +289,13 @@ def fetch_smartrecruiters_jobs(headers):
                 continue
             jobs = resp.json().get("content", [])
             count = 0
+            is_large_corp = board["category"] in ("Banque", "Commodities & Energy")
             for j in jobs:
                 title = j.get("name", "")
                 loc = j.get("location") or {}
                 loc_str = f"{loc.get('city', '')} {loc.get('country', '')}"
-                city = detect_city(loc_str)
-                if not city or not is_relevant_internship(title):
+                city = detect_city(loc_str, title)
+                if not city or not is_relevant_internship(title, require_fo_keyword=is_large_corp):
                     continue
 
                 rel_date = j.get("releasedDate") or ""
@@ -230,24 +316,132 @@ def fetch_smartrecruiters_jobs(headers):
                 })
                 count += 1
             print(f"[SR-OK] {board['company']}: {len(jobs)} total -> {count} stage(s) EU")
-            time.sleep(0.3)
+            time.sleep(0.25)
         except Exception as e:
             print(f"[SR-ERR] {board['company']}: {e}")
     return collected
 
+def fetch_workday_jobs():
+    collected = []
+    wd_headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
+    search_terms = ["intern", "stage", "off-cycle", "trading", "quant"]
+
+    for board in WORKDAY_BOARDS:
+        company = board["company"]
+        seen_paths = set()
+        count = 0
+        for term in search_terms:
+            payload = {"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": term}
+            try:
+                resp = requests.post(board["url"], json=payload, headers=wd_headers, timeout=15)
+                if resp.status_code != 200:
+                    print(f"[WD-SKIP] {company} ({term}): HTTP {resp.status_code}")
+                    break
+                postings = resp.json().get("jobPostings", [])
+                for p in postings:
+                    ext_path = p.get("externalPath", "")
+                    if not ext_path or ext_path in seen_paths:
+                        continue
+                    seen_paths.add(ext_path)
+
+                    title = p.get("title", "")
+                    loc_text = p.get("locationsText", "")
+                    city = detect_city(loc_text, title)
+                    if not city or not is_relevant_internship(title, require_fo_keyword=True):
+                        continue
+
+                    job_url = f"{board['base_job_url']}{ext_path}"
+                    slug_id = re.sub(r"[^a-zA-Z0-9]+", "-", ext_path).strip("-")[:60]
+
+                    collected.append({
+                        "id": f"wd-{slug_id}",
+                        "company": company,
+                        "category": board["category"],
+                        "title": title.strip(),
+                        "role": classify_role(title),
+                        "city": city,
+                        "duration": classify_duration(title),
+                        "posted_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                        "status": "Ouvert",
+                        "url": job_url
+                    })
+                    count += 1
+                time.sleep(0.3)
+            except Exception as e:
+                print(f"[WD-ERR] {company}: {e}")
+                break
+        if count > 0:
+            print(f"[WD-OK] {company}: {count} stage(s) FO EU trouvé(s)")
+    return collected
+
+def fetch_rss_jobs(headers):
+    collected = []
+    for feed in RSS_FEEDS:
+        company = feed["company"]
+        try:
+            resp = requests.get(feed["url"], headers=headers, timeout=15)
+            if resp.status_code != 200:
+                print(f"[RSS-SKIP] {company}: HTTP {resp.status_code}")
+                continue
+            root = ET.fromstring(resp.content)
+            items = root.findall(".//item")
+            count = 0
+            for item in items:
+                title = (item.findtext("title") or "").strip()
+                link = (item.findtext("link") or "").strip()
+                desc = (item.findtext("description") or "").strip()
+                pub_date = (item.findtext("pubDate") or "").strip()
+
+                city = detect_city(f"{title} {desc}", title)
+                if not city or not is_relevant_internship(title, require_fo_keyword=True):
+                    continue
+
+                posted_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                if pub_date:
+                    for fmt in ("%a, %d %b %Y %H:%M:%S %z", "%a, %d %b %Y %H:%M:%S GMT"):
+                        try:
+                            posted_date = datetime.strptime(pub_date, fmt).strftime("%Y-%m-%d")
+                            break
+                        except ValueError:
+                            pass
+
+                uid = re.sub(r"[^a-zA-Z0-9]+", "-", link)[-50:]
+                collected.append({
+                    "id": f"rss-{uid}",
+                    "company": company,
+                    "category": feed["category"],
+                    "title": title,
+                    "role": classify_role(title),
+                    "city": city,
+                    "duration": classify_duration(title),
+                    "posted_date": posted_date,
+                    "status": "Ouvert",
+                    "url": link
+                })
+                count += 1
+            print(f"[RSS-OK] {company}: {len(items)} items -> {count} stage(s) FO EU")
+        except Exception as e:
+            print(f"[RSS-ERR] {company}: {e}")
+    return collected
+
 def main():
-    headers = {"User-Agent": "EuroQuantMarketsTracker/1.1"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EuroQuantMarketsTracker/1.2"}
     existing = load_existing_jobs()
-    # Keep only manually added jobs (non-scraped prefixes)
     manual_jobs = [
         j for j in existing
-        if not str(j.get("id", "")).startswith(("gh-", "lv-", "sr-"))
+        if not str(j.get("id", "")).startswith(("gh-", "lv-", "sr-", "wd-", "rss-"))
     ]
 
     scraped_jobs = []
     scraped_jobs.extend(fetch_greenhouse_jobs(headers))
     scraped_jobs.extend(fetch_lever_jobs(headers))
     scraped_jobs.extend(fetch_smartrecruiters_jobs(headers))
+    scraped_jobs.extend(fetch_workday_jobs())
+    scraped_jobs.extend(fetch_rss_jobs(headers))
 
     merged_map = {}
     for job in manual_jobs + scraped_jobs:
