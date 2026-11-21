@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Euro Quant & Markets Tracker — Stages Front Office</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">EU // FO</span>
+        <div>
+          <h1>Euro Quant & Markets Tracker</h1>
+          <p class="subtitle">Trading • Structuring • Quant Research • Commodities • Data Science</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="btn-export" class="btn btn-secondary" title="Sauvegarder mon suivi personnel en JSON">
+          ↓ Exporter mon suivi
+        </button>
+        <label class="btn btn-secondary" title="Restaurer un fichier de suivi JSON">
+          ↑ Importer
+          <input type="file" id="input-import" accept=".json" hidden />
+        </label>
+        <button id="btn-open-modal" class="btn btn-primary">+ Ajouter une offre</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- KPI Strip -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Offres actives</span>
+        <span class="kpi-value" id="kpi-total">0</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">À postuler</span>
+        <span class="kpi-value text-blue" id="kpi-todo">0</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Postulé / OA</span>
+        <span class="kpi-value text-amber" id="kpi-applied">0</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Entretiens</span>
+        <span class="kpi-value text-purple" id="kpi-interview">0</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Offres reçues</span>
+        <span class="kpi-value text-green" id="kpi-offer">0</span>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="internships">
+        Offres de stages <span class="tab-count" id="tab-count-internships">0</span>
+      </button>
+      <button class="tab" data-tab="companies">
+        Annuaire des acteurs <span class="tab-count" id="tab-count-companies">0</span>
+      </button>
+    </nav>
+
+    <!-- TAB 1: INTERNSHIPS -->
+    <section id="view-internships" class="tab-view active">
+      <div class="filters-bar">
+        <div class="filter-group search-group">
+          <input type="text" id="filter-search" placeholder="Rechercher (ex: Delta One, Marex, Oil, QRT, Python...)" />
+        </div>
+        <div class="filter-group">
+          <select id="filter-city">
+            <option value="">Toutes les villes</option>
+            <option value="Paris">Paris</option>
+            <option value="Londres">Londres</option>
+            <option value="Genève">Genève</option>
+            <option value="Amsterdam">Amsterdam</option>
+            <option value="Francfort">Francfort</option>
+            <option value="Milan">Milan</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <select id="filter-role">
+            <option value="">Tous les métiers FO</option>
+            <option value="Trading & Market Making">Trading & Market Making</option>
+            <option value="Structuring">Structuring</option>
+            <option value="Quant Research / Dev">Quant Research / Dev</option>
+            <option value="Data Science & Analytics">Data Science & Analytics</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <select id="filter-category">
+            <option value="">Toutes catégories</option>
+            <option value="Banque">Banque EU</option>
+            <option value="Banque US">Banque US</option>
+            <option value="Courtier / Broker">Courtier / Broker</option>
+            <option value="Commodities & Energy">Commodities & Energy</option>
+            <option value="Market Maker / Prop">Market Maker / Prop</option>
+            <option value="Hedge Fund / Quant">Hedge Fund / Quant</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <select id="filter-duration">
+            <option value="">Toutes durées</option>
+            <option value="Off-cycle / 6 mois">Off-cycle / 6 mois</option>
+            <option value="Summer (2-3 mois)">Summer (2-3 mois)</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <select id="filter-my-status">
+            <option value="">Mon suivi (Tous)</option>
+            <option value="À postuler">À postuler</option>
+            <option value="Postulé">Postulé</option>
+            <option value="Test en ligne (OA)">Test en ligne (OA)</option>
+            <option value="Entretien">Entretien</option>
+            <option value="Offre">Offre</option>
+            <option value="Refusé">Refusé</option>
+          </select>
+        </div>
+        <button id="btn-reset-filters" class="btn btn-ghost">Réinitialiser</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Entreprise</th>
+              <th>Intitulé du poste</th>
+              <th>Métier</th>
+              <th>Ville</th>
+              <th>Durée</th>
+              <th>Date</th>
+              <th>Mon statut</th>
+              <th>Notes perso</th>
+              <th>Lien</th>
+            </tr>
+          </thead>
+          <tbody id="internships-tbody">
+            <tr><td colspan="9" class="empty-state">Chargement des offres...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: COMPANIES DIRECTORY -->
+    <section id="view-companies" class="tab-view">
+      <div class="filters-bar">
+        <div class="filter-group search-group">
+          <input type="text" id="comp-search" placeholder="Filtrer une entreprise (ex: ODDO, Marex, Vitol, CIC...)" />
+        </div>
+        <div class="filter-group">
+          <select id="comp-city">
+            <option value="">Tous les hubs</option>
+            <option value="Paris">Paris</option>
+            <option value="Londres">Londres</option>
+            <option value="Genève">Genève</option>
+            <option value="Amsterdam">Amsterdam</option>
+            <option value="Francfort">Francfort</option>
+            <option value="Milan">Milan</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <select id="comp-category">
+            <option value="">Toutes catégories</option>
+            <option value="Banque">Banque EU</option>
+            <option value="Banque US">Banque US</option>
+            <option value="Courtier / Broker">Courtier / Broker</option>
+            <option value="Commodities & Energy">Commodities & Energy</option>
+            <option value="Market Maker / Prop">Market Maker / Prop</option>
+            <option value="Hedge Fund / Quant">Hedge Fund / Quant</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="companies-grid" id="companies-grid"></div>
+    </section>
+  </main>
+
+  <!-- MODAL: ADD INTERNSHIP -->
+  <div id="modal-add" class="modal-backdrop hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Ajouter une offre au tracker</h2>
+        <button id="btn-close-modal" class="btn-icon">✕</button>
+      </div>
+      <form id="form-add-internship">
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Entreprise *</label>
+            <input type="text" id="add-company" required placeholder="ex: Marex, BNP Paribas, Vitol..." />
+          </div>
+          <div class="form-field">
+            <label>Catégorie *</label>
+            <select id="add-category" required>
+              <option value="Banque">Banque</option>
+              <option value="Banque US">Banque US</option>
+              <option value="Courtier / Broker">Courtier / Broker</option>
+              <option value="Commodities & Energy">Commodities & Energy</option>
+              <option value="Market Maker / Prop">Market Maker / Prop</option>
+              <option value="Hedge Fund / Quant">Hedge Fund / Quant</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label>Intitulé exact du poste *</label>
+            <input type="text" id="add-title" required placeholder="ex: Off-Cycle Intern - Commodities Structuring" />
+          </div>
+          <div class="form-field">
+            <label>Métier Front Office *</label>
+            <select id="add-role" required>
+              <option value="Trading & Market Making">Trading & Market Making</option>
+              <option value="Structuring">Structuring</option>
+              <option value="Quant Research / Dev">Quant Research / Dev</option>
+              <option value="Data Science & Analytics">Data Science & Analytics</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Ville *</label>
+            <select id="add-city" required>
+              <option value="Paris">Paris</option>
+              <option value="Londres">Londres</option>
+              <option value="Genève">Genève</option>
+              <option value="Amsterdam">Amsterdam</option>
+              <option value="Francfort">Francfort</option>
+              <option value="Milan">Milan</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Durée *</label>
+            <select id="add-duration" required>
+              <option value="Off-cycle / 6 mois">Off-cycle / 6 mois</option>
+              <option value="Summer (2-3 mois)">Summer (2-3 mois)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Lien direct vers l'offre *</label>
+            <input type="url" id="add-url" required placeholder="https://..." />
+          </div>
+        </div>
+        <p class="modal-hint">
+          L'offre est ajoutée immédiatement dans ton navigateur. Tu peux aussi copier le bloc JSON généré pour l'ajouter définitivement dans <code>data/internships.json</code> sur GitHub.
+        </p>
+        <div class="modal-footer">
+          <button type="button" id="btn-copy-json" class="btn btn-secondary">Copier le JSON pour GitHub</button>
+          <button type="submit" class="btn btn-primary">Ajouter à ma liste</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Euro Quant & Markets Tracker — Données de suivi personnel stockées localement dans ton navigateur (100% privé).</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
