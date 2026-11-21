@@ -504,18 +504,6 @@
     "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8785833002"
   },
   {
-    "id": "gh-flowtraders-8213037",
-    "company": "Flow Traders",
-    "category": "Market Maker / Prop",
-    "title": "PhD Graduate Quantitative Researcher",
-    "role": "Quant Research / Dev",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-09-21",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/flowtraders/jobs/8213037"
-  },
-  {
     "id": "gh-flowtraders-8156203",
     "company": "Flow Traders",
     "category": "Market Maker / Prop",
@@ -526,6 +514,18 @@
     "posted_date": "2026-09-21",
     "status": "Ouvert",
     "url": "https://job-boards.greenhouse.io/flowtraders/jobs/8156203"
+  },
+  {
+    "id": "gh-flowtraders-8213037",
+    "company": "Flow Traders",
+    "category": "Market Maker / Prop",
+    "title": "PhD Graduate Quantitative Researcher",
+    "role": "Quant Research / Dev",
+    "city": "Amsterdam",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-09-21",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/flowtraders/jobs/8213037"
   },
   {
     "id": "gh-drweng-8020364",
