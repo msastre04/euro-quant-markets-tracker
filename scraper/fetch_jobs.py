@@ -37,39 +37,30 @@ SMARTRECRUITERS_BOARDS = [
     {"token": "Trafigura", "company": "Trafigura", "category": "Commodities & Energy"},
 ]
 
-# 4. Welcome to the Jungle (WTTJ) public Algolia search index
-# Note: Algolia already filters by contract_type ("internship" or "vie"), so we DO NOT require
-# the word "stage" in the French title (e.g., "Assistant Trader Dérivés (H/F)" is valid!).
+# 4. Welcome to the Jungle (WTTJ) broad French & English Front Office queries
+# Short queries yield high recall across SG, BNPP, CACIB, Natixis, ODDO, TotalEnergies, Engie, etc.
 WTTJ_QUERIES = [
-    {"query": "Société Générale trading", "default_company": "Société Générale (SG CIB)", "category": "Banque"},
-    {"query": "Société Générale quant structuration", "default_company": "Société Générale (SG CIB)", "category": "Banque"},
-    {"query": "BNP Paribas trading quant", "default_company": "BNP Paribas (CIB)", "category": "Banque"},
-    {"query": "BNP Paribas structuration marchés", "default_company": "BNP Paribas (CIB)", "category": "Banque"},
-    {"query": "Crédit Agricole CIB trading quant", "default_company": "Crédit Agricole CIB", "category": "Banque"},
-    {"query": "Natixis trading quant structuration", "default_company": "Natixis CIB (Groupe BPCE)", "category": "Banque"},
-    {"query": "ODDO BHF trading quant", "default_company": "ODDO BHF", "category": "Banque"},
-    {"query": "TotalEnergies trading", "default_company": "TotalEnergies (Trading & Shipping)", "category": "Commodities & Energy"},
-    {"query": "ENGIE trading quant", "default_company": "ENGIE Global Markets", "category": "Commodities & Energy"},
-    {"query": "Marex trading", "default_company": "Marex (Marex Solutions)", "category": "Courtier / Broker"},
-    {"query": "Kepler Cheuvreux", "default_company": "Kepler Cheuvreux", "category": "Courtier / Broker"},
-    {"query": "trading quant structuration", "default_company": None, "category": "Banque"},
+    {"query": "finance de marché", "default_cat": "Banque"},
+    {"query": "salle de marchés", "default_cat": "Banque"},
+    {"query": "trading", "default_cat": "Banque"},
+    {"query": "structuration", "default_cat": "Banque"},
+    {"query": "quant", "default_cat": "Hedge Fund / Quant"},
+    {"query": "quantitatif", "default_cat": "Banque"},
+    {"query": "dérivés", "default_cat": "Banque"},
+    {"query": "derivatives", "default_cat": "Banque"},
+    {"query": "commodities", "default_cat": "Commodities & Energy"},
+    {"query": "matières premières", "default_cat": "Commodities & Energy"},
+    {"query": "énergie trading", "default_cat": "Commodities & Energy"},
+    {"query": "risques de marché", "default_cat": "Banque"},
+    {"query": "market risk", "default_cat": "Banque"},
+    {"query": "fixed income", "default_cat": "Banque"},
+    {"query": "delta one", "default_cat": "Banque"},
+    {"query": "sales trading", "default_cat": "Banque"},
+    {"query": "gestion quantitative", "default_cat": "Hedge Fund / Quant"},
+    {"query": "data science finance", "default_cat": "Banque"},
 ]
 
-# 5. eFinancialCareers public job search API (JSON endpoint used by efinancialcareers.fr / .co.uk)
-EFC_QUERIES = [
-    {"q": "Societe Generale intern trading quant", "location": "Paris", "city": "Paris", "company": "Société Générale (SG CIB)", "category": "Banque"},
-    {"q": "BNP Paribas intern trading quant", "location": "Paris", "city": "Paris", "company": "BNP Paribas (CIB)", "category": "Banque"},
-    {"q": "Credit Agricole CIB intern trading quant", "location": "Paris", "city": "Paris", "company": "Crédit Agricole CIB", "category": "Banque"},
-    {"q": "Natixis intern trading quant", "location": "Paris", "city": "Paris", "company": "Natixis CIB (Groupe BPCE)", "category": "Banque"},
-    {"q": "TotalEnergies intern trading", "location": "Geneva", "city": "Genève", "company": "TotalEnergies (Trading & Shipping)", "category": "Commodities & Energy"},
-    {"q": "TotalEnergies intern trading", "location": "Paris", "city": "Paris", "company": "TotalEnergies (Trading & Shipping)", "category": "Commodities & Energy"},
-    {"q": "Vitol intern trading", "location": "Geneva", "city": "Genève", "company": "Vitol", "category": "Commodities & Energy"},
-    {"q": "Marex intern", "location": "London", "city": "Londres", "company": "Marex (Marex Solutions)", "category": "Courtier / Broker"},
-    {"q": "quant intern", "location": "London", "city": "Londres", "company": None, "category": "Hedge Fund / Quant"},
-    {"q": "quant stage", "location": "Paris", "city": "Paris", "company": None, "category": "Banque"},
-]
-
-FRENCH_BANKS_AND_ENERGY = {
+KNOWN_ACTORS = {
     "societe generale": ("Société Générale (SG CIB)", "Banque"),
     "société générale": ("Société Générale (SG CIB)", "Banque"),
     "sg cib": ("Société Générale (SG CIB)", "Banque"),
@@ -78,13 +69,17 @@ FRENCH_BANKS_AND_ENERGY = {
     "crédit agricole": ("Crédit Agricole CIB", "Banque"),
     "cacib": ("Crédit Agricole CIB", "Banque"),
     "natixis": ("Natixis CIB (Groupe BPCE)", "Banque"),
+    "bpce": ("Natixis CIB (Groupe BPCE)", "Banque"),
     "oddo": ("ODDO BHF", "Banque"),
     "cic": ("CIC Market Solutions", "Banque"),
+    "crédit mutuel": ("CIC Market Solutions", "Banque"),
+    "credit mutuel": ("CIC Market Solutions", "Banque"),
     "lcl": ("LCL (Banque des Entreprises / Marchés)", "Banque"),
     "totalenergies": ("TotalEnergies (Trading & Shipping)", "Commodities & Energy"),
     "total energies": ("TotalEnergies (Trading & Shipping)", "Commodities & Energy"),
     "engie": ("ENGIE Global Markets", "Commodities & Energy"),
     "edf trading": ("EDF Trading", "Commodities & Energy"),
+    "edf": ("EDF Trading", "Commodities & Energy"),
     "marex": ("Marex (Marex Solutions)", "Courtier / Broker"),
     "vitol": ("Vitol", "Commodities & Energy"),
     "trafigura": ("Trafigura", "Commodities & Energy"),
@@ -92,8 +87,10 @@ FRENCH_BANKS_AND_ENERGY = {
     "mercuria": ("Mercuria", "Commodities & Energy"),
     "kepler": ("Kepler Cheuvreux", "Courtier / Broker"),
     "cfm": ("Capital Fund Management (CFM)", "Hedge Fund / Quant"),
+    "capital fund management": ("Capital Fund Management (CFM)", "Hedge Fund / Quant"),
     "amundi": ("Amundi", "Hedge Fund / Quant"),
     "axa im": ("AXA IM", "Hedge Fund / Quant"),
+    "axa investment": ("AXA IM", "Hedge Fund / Quant"),
     "qrt": ("Qube Research & Technologies (QRT)", "Hedge Fund / Quant"),
     "qube": ("Qube Research & Technologies (QRT)", "Hedge Fund / Quant"),
     "optiver": ("Optiver", "Market Maker / Prop"),
@@ -101,10 +98,29 @@ FRENCH_BANKS_AND_ENERGY = {
     "flow traders": ("Flow Traders", "Market Maker / Prop"),
     "jane street": ("Jane Street", "Market Maker / Prop"),
     "citadel": ("Citadel Securities", "Market Maker / Prop"),
+    "millennium": ("Millennium Management", "Hedge Fund / Quant"),
+    "squarepoint": ("Squarepoint Capital", "Hedge Fund / Quant"),
+    "exoduspoint": ("ExodusPoint", "Hedge Fund / Quant"),
+    "ubs": ("UBS", "Banque"),
+    "hsbc": ("HSBC", "Banque"),
+    "barclays": ("Barclays", "Banque"),
+    "deutsche bank": ("Deutsche Bank", "Banque"),
+    "goldman sachs": ("Goldman Sachs", "Banque US"),
+    "j.p. morgan": ("J.P. Morgan", "Banque US"),
+    "jpmorgan": ("J.P. Morgan", "Banque US"),
+    "morgan stanley": ("Morgan Stanley", "Banque US"),
+    "bank of america": ("Bank of America", "Banque US"),
+    "citigroup": ("Citigroup", "Banque US"),
+    "citi": ("Citigroup", "Banque US"),
+    "rothschild": ("Rothschild & Co", "Banque"),
+    "lazard": ("Lazard", "Banque"),
+    "euronext": ("Euronext", "Courtier / Broker"),
+    "tradition": ("Compagnie Financière Tradition", "Courtier / Broker"),
+    "tp icap": ("TP ICAP", "Courtier / Broker"),
 }
 
 CITY_PATTERNS = {
-    "Paris": [r"\bparis\b", r"\bla d[ée]fense\b", r"\bcourbevoie\b", r"\bputeaux\b", r"\bmontrouge\b", r"\bfrance\b", r"\b[îi]le-de-france\b"],
+    "Paris": [r"\bparis\b", r"\bla d[ée]fense\b", r"\bcourbevoie\b", r"\bputeaux\b", r"\bmontrouge\b", r"\bfrance\b", r"\b[îi]le-de-france\b", r"\bissy-les-moulineaux\b", r"\bneuilly\b", r"\blevallois\b"],
     "Londres": [r"\blondon\b", r"\blondres\b", r"\bcanary wharf\b", r"\bunited kingdom\b", r"\buk\b", r"\beurope\b"],
     "Genève": [r"\bgeneva\b", r"\bgen[eè]ve\b", r"\bswitzerland\b", r"\bsuisse\b"],
     "Amsterdam": [r"\bamsterdam\b", r"\bnetherlands\b", r"\bpays-bas\b"],
@@ -132,7 +148,9 @@ FRONT_OFFICE_KEYWORDS = [
     "data scien", "machine learning", "ai ", "analytics", "strats", "risk",
     "portfolio", "execution", "algo", "broker", "research", "pricing",
     "front office", "salle de march", "produits structur", "matières premières",
-    "énergie", "energie", "dérivés", "derives", "taux", "change", "actions"
+    "énergie", "energie", "dérivés", "derives", "taux", "change", "actions",
+    "finance de march", "trésorerie", "tresorerie", "gestion d'actifs", "asset management",
+    "hedge fund", "arbitrage", "volatilit", "options", "futures", "swaps"
 ]
 
 EXCLUDE_KEYWORDS = [
@@ -140,7 +158,7 @@ EXCLUDE_KEYWORDS = [
     "marketing", "facilities", "receptionist", "office manager", "accounting",
     "payroll", "events", "executive assistant", "pa to", "audit", "compliance",
     "communication", "rh ", "ressources humaines", "juridique", "comptab",
-    "contrôle de gestion", "controle de gestion", "inspecteur"
+    "contrôle de gestion", "controle de gestion", "inspecteur", "alternance"
 ]
 
 def detect_city(location_str: str, title_str: str = ""):
@@ -167,7 +185,7 @@ def classify_role(title: str) -> str:
     t = (title or "").lower()
     if any(k in t for k in ["structur", "derivatives sales", "solutions", "sales", "produits structur"]):
         return "Structuring"
-    if any(k in t for k in ["quant", "research", "strats", "pricing", "stochastic", "alpha"]):
+    if any(k in t for k in ["quant", "research", "strats", "pricing", "stochastic", "alpha", "quantitatif"]):
         return "Quant Research / Dev"
     if any(k in t for k in ["data scien", "machine learning", "ai ", "analytics", "data engineer", "software", "developer", "engineer"]):
         return "Data Science & Analytics"
@@ -179,14 +197,13 @@ def classify_duration(title: str) -> str:
         return "Summer (2-3 mois)"
     return "Off-cycle / 6 mois"
 
-def match_known_actor(org_name: str, fallback_company=None, fallback_cat="Banque"):
+def match_known_actor(org_name: str, fallback_cat="Banque"):
     low = (org_name or "").lower()
-    for key, (clean_name, cat) in FRENCH_BANKS_AND_ENERGY.items():
+    for key, (clean_name, cat) in KNOWN_ACTORS.items():
         if key in low:
             return clean_name, cat
-    if fallback_company:
-        return fallback_company, fallback_cat
-    return (org_name.strip() if org_name else None), fallback_cat
+    clean = (org_name or "").strip()
+    return (clean if clean else None), fallback_cat
 
 def load_existing_jobs():
     if not os.path.exists(INTERNSHIPS_FILE):
@@ -206,12 +223,6 @@ def fetch_greenhouse_jobs(headers):
                 continue
             jobs = resp.json().get("jobs", [])
             count = 0
-
-            # Diagnostic sample for Jane Street if needed
-            if token == "janestreet" and jobs:
-                sample = [(j.get("title"), (j.get("location") or {}).get("name")) for j in jobs[:5]]
-                print(f"[DEBUG-JS] Sample 5: {sample}")
-
             for j in jobs:
                 title = j.get("title", "")
                 loc_name = (j.get("location") or {}).get("name", "")
@@ -326,7 +337,7 @@ def fetch_smartrecruiters_jobs(headers):
     return collected
 
 def fetch_wttj_french_markets():
-    """Queries Welcome to the Jungle public Algolia index for French banks & energy desks."""
+    """Queries Welcome to the Jungle public Algolia index with broad French/English market terms."""
     collected = []
     algolia_url = "https://csekhvms53-dsn.algolia.net/1/indexes/*/queries"
     algolia_headers = {
@@ -341,7 +352,7 @@ def fetch_wttj_french_markets():
     for item in WTTJ_QUERIES:
         params = urllib.parse.urlencode({
             "query": item["query"],
-            "hitsPerPage": 30,
+            "hitsPerPage": 50,
             "facetFilters": json.dumps([["contract_type:internship", "contract_type:vie"]])
         })
         requests_payload.append({
@@ -354,7 +365,7 @@ def fetch_wttj_french_markets():
             algolia_url,
             json={"requests": requests_payload},
             headers=algolia_headers,
-            timeout=20
+            timeout=25
         )
         if resp.status_code != 200:
             print(f"[WTTJ-SKIP] HTTP {resp.status_code} - {resp.text[:150]}")
@@ -385,14 +396,12 @@ def fetch_wttj_french_markets():
                 if not city:
                     continue
 
-                # Algolia already restricted contract_type to internship/vie, so require_intern_word=False
                 if not is_relevant_internship(title, require_intern_word=False, require_fo_keyword=True):
                     continue
 
                 matched_company, matched_cat = match_known_actor(
                     org_name,
-                    fallback_company=q_meta["default_company"] or org_name,
-                    fallback_cat=q_meta["category"]
+                    fallback_cat=q_meta["default_cat"]
                 )
                 if not matched_company:
                     continue
@@ -420,77 +429,6 @@ def fetch_wttj_french_markets():
 
     return collected
 
-def fetch_efinancialcareers_jobs():
-    """Queries eFinancialCareers public search API for SG, BNPP, CACIB, TotalEnergies, Vitol, Marex."""
-    collected = []
-    efc_headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-        "Accept": "application/json"
-    }
-    seen_ids = set()
-
-    for q_item in EFC_QUERIES:
-        params = {
-            "q": q_item["q"],
-            "location": q_item["location"],
-            "page": 1,
-            "pageSize": 25
-        }
-        url = "https://www.efinancialcareers.com/api/job-search/v2/jobs"
-        try:
-            resp = requests.get(url, params=params, headers=efc_headers, timeout=15)
-            if resp.status_code != 200:
-                print(f"[EFC-SKIP] ({q_item['q']}): HTTP {resp.status_code}")
-                break
-            data = resp.json()
-            jobs = data.get("data") or data.get("jobs") or []
-            for j in jobs:
-                jid = str(j.get("id") or j.get("jobId") or "")
-                if not jid or jid in seen_ids:
-                    continue
-                seen_ids.add(jid)
-
-                title = (j.get("title") or "").strip()
-                comp_raw = (j.get("companyName") or j.get("company", {}).get("name") or "").strip()
-                if not is_relevant_internship(title, require_intern_word=True, require_fo_keyword=True):
-                    continue
-
-                matched_company, matched_cat = match_known_actor(
-                    comp_raw,
-                    fallback_company=q_item["company"] or comp_raw,
-                    fallback_cat=q_item["category"]
-                )
-                if not matched_company:
-                    continue
-
-                job_url = j.get("jobDetailUrl") or j.get("url") or f"https://www.efinancialcareers.com/jobs-{jid}"
-                if job_url.startswith("/"):
-                    job_url = f"https://www.efinancialcareers.com{job_url}"
-
-                pub_date = (j.get("postedDate") or j.get("createdDate") or "")[:10]
-                if len(pub_date) < 10:
-                    pub_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-                collected.append({
-                    "id": f"efc-{jid}",
-                    "company": matched_company,
-                    "category": matched_cat,
-                    "title": title,
-                    "role": classify_role(title),
-                    "city": q_item["city"],
-                    "duration": classify_duration(title),
-                    "posted_date": pub_date,
-                    "status": "Ouvert",
-                    "url": job_url
-                })
-            time.sleep(0.4)
-        except Exception as e:
-            print(f"[EFC-ERR] {e}")
-            break
-
-    print(f"[EFC-OK] {len(collected)} stage(s) trouvé(s) via eFinancialCareers")
-    return collected
-
 def fetch_arbeitnow_eu(headers):
     collected = []
     try:
@@ -505,7 +443,7 @@ def fetch_arbeitnow_eu(headers):
             city = detect_city(loc, title)
             if not city or not is_relevant_internship(title, require_intern_word=True, require_fo_keyword=True):
                 continue
-            matched_comp, matched_cat = match_known_actor(comp, fallback_company=comp, fallback_cat="Banque")
+            matched_comp, matched_cat = match_known_actor(comp, fallback_cat="Banque")
             collected.append({
                 "id": f"abn-{j.get('slug', '')[:50]}",
                 "company": matched_comp,
@@ -524,7 +462,7 @@ def fetch_arbeitnow_eu(headers):
     return collected
 
 def main():
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EuroQuantMarketsTracker/1.4"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EuroQuantMarketsTracker/1.5"}
     existing = load_existing_jobs()
     manual_jobs = [
         j for j in existing
@@ -536,7 +474,6 @@ def main():
     scraped_jobs.extend(fetch_lever_jobs(headers))
     scraped_jobs.extend(fetch_smartrecruiters_jobs(headers))
     scraped_jobs.extend(fetch_wttj_french_markets())
-    scraped_jobs.extend(fetch_efinancialcareers_jobs())
     scraped_jobs.extend(fetch_arbeitnow_eu(headers))
 
     merged_map = {}
