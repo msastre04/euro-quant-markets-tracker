@@ -2,6 +2,7 @@ import json
 import os
 import re
 import time
+import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 import requests
@@ -9,26 +10,22 @@ import requests
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 INTERNSHIPS_FILE = os.path.join(DATA_DIR, "internships.json")
 
-# 1. Greenhouse public boards
+# 1. Greenhouse public boards (verified active tokens + broadened keyword matching)
 GREENHOUSE_BOARDS = [
     {"token": "optiver", "company": "Optiver", "category": "Market Maker / Prop"},
     {"token": "imc", "company": "IMC Trading", "category": "Market Maker / Prop"},
     {"token": "flowtraders", "company": "Flow Traders", "category": "Market Maker / Prop"},
     {"token": "jumptrading", "company": "Jump Trading", "category": "Market Maker / Prop"},
-    {"token": "hudsonrivertrading", "company": "Hudson River Trading", "category": "Market Maker / Prop"},
     {"token": "davinciderivatives", "company": "Da Vinci Derivatives", "category": "Market Maker / Prop"},
     {"token": "quberesearchandtechnologies", "company": "Qube Research & Technologies (QRT)", "category": "Hedge Fund / Quant"},
     {"token": "squarepointcapital", "company": "Squarepoint Capital", "category": "Hedge Fund / Quant"},
     {"token": "point72", "company": "Point72", "category": "Hedge Fund / Quant"},
-    {"token": "bamfunds", "company": "Balyasny Asset Management", "category": "Hedge Fund / Quant"},
     {"token": "janestreet", "company": "Jane Street", "category": "Market Maker / Prop"},
-    {"token": "citadelsecurities", "company": "Citadel Securities", "category": "Market Maker / Prop"},
     {"token": "drweng", "company": "DRW", "category": "Market Maker / Prop"},
-    {"token": "sig", "company": "Susquehanna (SIG)", "category": "Market Maker / Prop"},
-    {"token": "gresearch", "company": "G-Research", "category": "Hedge Fund / Quant"},
     {"token": "marshallwace", "company": "Marshall Wace", "category": "Hedge Fund / Quant"},
-    {"token": "man", "company": "Man Group", "category": "Hedge Fund / Quant"},
     {"token": "exoduspoint", "company": "ExodusPoint", "category": "Hedge Fund / Quant"},
+    {"token": "hudsonrivertrading", "company": "Hudson River Trading", "category": "Market Maker / Prop"},
+    {"token": "sig", "company": "Susquehanna (SIG)", "category": "Market Maker / Prop"},
 ]
 
 # 2. Lever public boards
@@ -40,39 +37,13 @@ LEVER_BOARDS = [
 
 # 3. SmartRecruiters public boards
 SMARTRECRUITERS_BOARDS = [
-    {"token": "SquarepointCapital", "company": "Squarepoint Capital", "category": "Hedge Fund / Quant"},
-    {"token": "Marex", "company": "Marex (Marex Solutions)", "category": "Courtier / Broker"},
     {"token": "Vitol", "company": "Vitol", "category": "Commodities & Energy"},
+    {"token": "Marex", "company": "Marex (Marex Solutions)", "category": "Courtier / Broker"},
     {"token": "Trafigura", "company": "Trafigura", "category": "Commodities & Energy"},
-    {"token": "SocieteGenerale", "company": "Société Générale (SG CIB)", "category": "Banque"},
-    {"token": "BNPParibas", "company": "BNP Paribas (CIB)", "category": "Banque"},
-    {"token": "CreditAgricoleCIB", "company": "Crédit Agricole CIB", "category": "Banque"},
-    {"token": "Natixis", "company": "Natixis CIB (Groupe BPCE)", "category": "Banque"},
-    {"token": "TotalEnergies", "company": "TotalEnergies (Trading & Shipping)", "category": "Commodities & Energy"},
-    {"token": "ENGIE", "company": "ENGIE Global Markets", "category": "Commodities & Energy"},
-    {"token": "ODDOBHF", "company": "ODDO BHF", "category": "Banque"},
 ]
 
-# 4. Workday public CXS JSON endpoints (used by major banks & commodity houses)
+# 4. Workday single-shot lightweight fetch (avoids HTTP 429 rate limits on GitHub Actions)
 WORKDAY_BOARDS = [
-    {
-        "company": "Deutsche Bank",
-        "category": "Banque",
-        "url": "https://db.wd3.myworkdayjobs.com/wday/cxs/db/DBWebsite/jobs",
-        "base_job_url": "https://db.wd3.myworkdayjobs.com/en-US/DBWebsite"
-    },
-    {
-        "company": "Citigroup",
-        "category": "Banque US",
-        "url": "https://citi.wd5.myworkdayjobs.com/wday/cxs/citi/2/jobs",
-        "base_job_url": "https://citi.wd5.myworkdayjobs.com/en-US/2"
-    },
-    {
-        "company": "Trafigura",
-        "category": "Commodities & Energy",
-        "url": "https://trafigura.wd3.myworkdayjobs.com/wday/cxs/trafigura/TrafiguraCareerSite/jobs",
-        "base_job_url": "https://trafigura.wd3.myworkdayjobs.com/en-US/TrafiguraCareerSite"
-    },
     {
         "company": "BNP Paribas (CIB)",
         "category": "Banque",
@@ -86,51 +57,87 @@ WORKDAY_BOARDS = [
         "base_job_url": "https://totalenergies.wd3.myworkdayjobs.com/en-US/TotalEnergiesCareers"
     },
     {
-        "company": "Barclays",
+        "company": "Deutsche Bank",
         "category": "Banque",
-        "url": "https://barclays.wd3.myworkdayjobs.com/wday/cxs/barclays/External_Career_Site_Barclays/jobs",
-        "base_job_url": "https://barclays.wd3.myworkdayjobs.com/en-US/External_Career_Site_Barclays"
+        "url": "https://db.wd3.myworkdayjobs.com/wday/cxs/db/DBWebsite/jobs",
+        "base_job_url": "https://db.wd3.myworkdayjobs.com/en-US/DBWebsite"
+    },
+    {
+        "company": "Trafigura",
+        "category": "Commodities & Energy",
+        "url": "https://trafigura.wd3.myworkdayjobs.com/wday/cxs/trafigura/TrafiguraCareerSite/jobs",
+        "base_job_url": "https://trafigura.wd3.myworkdayjobs.com/en-US/TrafiguraCareerSite"
+    },
+    {
+        "company": "Citigroup",
+        "category": "Banque US",
+        "url": "https://citi.wd5.myworkdayjobs.com/wday/cxs/citi/2/jobs",
+        "base_job_url": "https://citi.wd5.myworkdayjobs.com/en-US/2"
     },
 ]
 
-# 5. Direct RSS / XML / JSON feeds from French banks & energy majors (SG, CACIB, TotalEnergies, Engie)
-RSS_FEEDS = [
-    {
-        "company": "Société Générale (SG CIB)",
-        "category": "Banque",
-        "url": "https://careers.societegenerale.com/en/rss/jobs?search=intern+trading+quant+structuring"
-    },
-    {
-        "company": "Crédit Agricole CIB",
-        "category": "Banque",
-        "url": "https://jobs.ca-cib.com/rss/jobs"
-    },
-    {
-        "company": "TotalEnergies (Trading & Shipping)",
-        "category": "Commodities & Energy",
-        "url": "https://jobs.totalenergies.com/en_US/careers/SearchJobs/feed/"
-    },
+# 5. Welcome to the Jungle (WTTJ) public Algolia search index for French banks & energy houses
+WTTJ_QUERIES = [
+    {"query": "Société Générale trading quant structuration stage", "default_company": "Société Générale (SG CIB)", "category": "Banque"},
+    {"query": "BNP Paribas trading quant structuration stage", "default_company": "BNP Paribas (CIB)", "category": "Banque"},
+    {"query": "Crédit Agricole CIB trading quant structuration stage", "default_company": "Crédit Agricole CIB", "category": "Banque"},
+    {"query": "Natixis trading quant structuration stage", "default_company": "Natixis CIB (Groupe BPCE)", "category": "Banque"},
+    {"query": "ODDO BHF trading quant structuration stage", "default_company": "ODDO BHF", "category": "Banque"},
+    {"query": "TotalEnergies trading gas power oil stage", "default_company": "TotalEnergies (Trading & Shipping)", "category": "Commodities & Energy"},
+    {"query": "ENGIE Global Markets trading quant stage", "default_company": "ENGIE Global Markets", "category": "Commodities & Energy"},
+    {"query": "Marex trading commodities stage", "default_company": "Marex (Marex Solutions)", "category": "Courtier / Broker"},
+    {"query": "Kepler Cheuvreux trading equity quant stage", "default_company": "Kepler Cheuvreux", "category": "Courtier / Broker"},
+    {"query": "stage trading quant structuration commodities", "default_company": None, "category": "Banque"},
 ]
+
+# 6. Public French/EU Job Aggregator APIs (Arbeitnow + Google News/Job RSS fallbacks)
+FRENCH_BANKS_AND_ENERGY = {
+    "societe generale": ("Société Générale (SG CIB)", "Banque"),
+    "société générale": ("Société Générale (SG CIB)", "Banque"),
+    "sg cib": ("Société Générale (SG CIB)", "Banque"),
+    "bnp paribas": ("BNP Paribas (CIB)", "Banque"),
+    "credit agricole": ("Crédit Agricole CIB", "Banque"),
+    "crédit agricole": ("Crédit Agricole CIB", "Banque"),
+    "cacib": ("Crédit Agricole CIB", "Banque"),
+    "natixis": ("Natixis CIB (Groupe BPCE)", "Banque"),
+    "oddo": ("ODDO BHF", "Banque"),
+    "cic": ("CIC Market Solutions", "Banque"),
+    "lcl": ("LCL (Banque des Entreprises / Marchés)", "Banque"),
+    "totalenergies": ("TotalEnergies (Trading & Shipping)", "Commodities & Energy"),
+    "total energies": ("TotalEnergies (Trading & Shipping)", "Commodities & Energy"),
+    "engie": ("ENGIE Global Markets", "Commodities & Energy"),
+    "edf trading": ("EDF Trading", "Commodities & Energy"),
+    "marex": ("Marex (Marex Solutions)", "Courtier / Broker"),
+    "vitol": ("Vitol", "Commodities & Energy"),
+    "trafigura": ("Trafigura", "Commodities & Energy"),
+    "gunvor": ("Gunvor Group", "Commodities & Energy"),
+    "mercuria": ("Mercuria", "Commodities & Energy"),
+    "kepler": ("Kepler Cheuvreux", "Courtier / Broker"),
+    "cfm": ("Capital Fund Management (CFM)", "Hedge Fund / Quant"),
+    "amundi": ("Amundi", "Hedge Fund / Quant"),
+    "axa im": ("AXA IM", "Hedge Fund / Quant"),
+}
 
 CITY_PATTERNS = {
-    "Paris": [r"\bparis\b", r"\bla d[ée]fense\b", r"\bcourbevoie\b", r"\bpup?teaux\b", r"\bmontrouge\b", r"\bfrance\b"],
-    "Londres": [r"\blondon\b", r"\blondres\b", r"\bcanary wharf\b", r"\bunited kingdom\b"],
-    "Genève": [r"\bgeneva\b", r"\bgen[eè]ve\b", r"\bswitzerland\b"],
-    "Amsterdam": [r"\bamsterdam\b", r"\bnetherlands\b"],
-    "Francfort": [r"\bfrankfurt\b", r"\bfrancfort\b", r"\bgermany\b"],
-    "Milan": [r"\bmilan\b", r"\bmilano\b", r"\bitaly\b"],
+    "Paris": [r"\bparis\b", r"\bla d[ée]fense\b", r"\bcourbevoie\b", r"\bputeaux\b", r"\bmontrouge\b", r"\bfrance\b", r"\b[îi]le-de-france\b"],
+    "Londres": [r"\blondon\b", r"\blondres\b", r"\bcanary wharf\b", r"\bunited kingdom\b", r"\buk\b"],
+    "Genève": [r"\bgeneva\b", r"\bgen[eè]ve\b", r"\bswitzerland\b", r"\bsuisse\b"],
+    "Amsterdam": [r"\bamsterdam\b", r"\bnetherlands\b", r"\bpays-bas\b"],
+    "Francfort": [r"\bfrankfurt\b", r"\bfrancfort\b", r"\bgermany\b", r"\ballemagne\b"],
+    "Milan": [r"\bmilan\b", r"\bmilano\b", r"\bitaly\b", r"\bitalie\b"],
 }
 
 NON_EU_EXCLUDE = [
     "sydney", "melbourne", "singapore", "hong kong", "tokyo", "shanghai",
     "new york", "chicago", "boston", "houston", "san francisco", "toronto",
-    "mumbai", "bengaluru", "bangalore", "dubai", "austin", "seattle"
+    "mumbai", "bengaluru", "bangalore", "dubai", "austin", "seattle", "pune"
 ]
 
 INTERN_KEYWORDS = [
     "intern", "internship", "stage", "stagiaire", "off-cycle", "off cycle",
     "summer", "graduate", "placement", "trainee", "industrial placement",
-    "spring week", "insight", "analyst program", "césure", "cesure", "vie "
+    "spring week", "insight", "analyst program", "césure", "cesure", "vie ",
+    "2026", "2027"
 ]
 
 FRONT_OFFICE_KEYWORDS = [
@@ -138,14 +145,16 @@ FRONT_OFFICE_KEYWORDS = [
     "commodit", "energy", "oil", "gas", "power", "equity", "derivatives",
     "delta one", "fixed income", "rates", "fx", "credit", "sales",
     "data scien", "machine learning", "strats", "risk", "portfolio",
-    "execution", "algo", "broker", "research", "pricing"
+    "execution", "algo", "broker", "research", "pricing", "front office",
+    "salle de march", "produits structur", "matières premières", "énergie"
 ]
 
 EXCLUDE_KEYWORDS = [
     "hr ", "human resources", "recruiter", "talent acquisition", "legal",
     "marketing", "facilities", "receptionist", "office manager", "accounting",
     "payroll", "events", "executive assistant", "pa to", "audit", "compliance",
-    "communication", "rh ", "ressources humaines", "juridique", "comptab"
+    "communication", "rh ", "ressources humaines", "juridique", "comptab",
+    "contrôle de gestion", "controle de gestion", "inspecteur"
 ]
 
 def detect_city(location_str: str, title_str: str = ""):
@@ -170,7 +179,7 @@ def is_relevant_internship(title: str, require_fo_keyword: bool = False) -> bool
 
 def classify_role(title: str) -> str:
     t = (title or "").lower()
-    if any(k in t for k in ["structur", "derivatives sales", "solutions", "sales"]):
+    if any(k in t for k in ["structur", "derivatives sales", "solutions", "sales", "produits structur"]):
         return "Structuring"
     if any(k in t for k in ["quant", "research", "strats", "pricing", "stochastic", "alpha"]):
         return "Quant Research / Dev"
@@ -183,6 +192,15 @@ def classify_duration(title: str) -> str:
     if "summer" in t or "spring" in t or "insight" in t:
         return "Summer (2-3 mois)"
     return "Off-cycle / 6 mois"
+
+def match_known_french_actor(org_name: str, default_company=None, default_cat="Banque"):
+    low = (org_name or "").lower()
+    for key, (clean_name, cat) in FRENCH_BANKS_AND_ENERGY.items():
+        if key in low:
+            return clean_name, cat
+    if default_company:
+        return default_company, default_cat
+    return None, None
 
 def load_existing_jobs():
     if not os.path.exists(INTERNSHIPS_FILE):
@@ -205,9 +223,10 @@ def fetch_greenhouse_jobs(headers):
             for j in jobs:
                 title = j.get("title", "")
                 loc_name = (j.get("location") or {}).get("name", "")
-                # Strict check on location.name + title so global offices list doesn't mislabel Sydney jobs
                 city = detect_city(loc_name, title)
-                if not city or not is_relevant_internship(title, require_fo_keyword=False):
+                # For Jane Street / Citadel / etc., "2027" + Trading/Quant/Software is an internship
+                is_intern = is_relevant_internship(title, require_fo_keyword=False)
+                if not city or not is_intern:
                     continue
 
                 updated_at = j.get("updated_at") or ""
@@ -253,10 +272,10 @@ def fetch_lever_jobs(headers):
                     continue
 
                 created_ms = j.get("createdAt")
-                if created_ms:
-                    posted_date = datetime.fromtimestamp(created_ms / 1000.0, tz=timezone.utc).strftime("%Y-%m-%d")
-                else:
-                    posted_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                posted_date = (
+                    datetime.fromtimestamp(created_ms / 1000.0, tz=timezone.utc).strftime("%Y-%m-%d")
+                    if created_ms else datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                )
 
                 collected.append({
                     "id": f"lv-{token}-{j.get('id')}",
@@ -289,13 +308,12 @@ def fetch_smartrecruiters_jobs(headers):
                 continue
             jobs = resp.json().get("content", [])
             count = 0
-            is_large_corp = board["category"] in ("Banque", "Commodities & Energy")
             for j in jobs:
                 title = j.get("name", "")
                 loc = j.get("location") or {}
                 loc_str = f"{loc.get('city', '')} {loc.get('country', '')}"
                 city = detect_city(loc_str, title)
-                if not city or not is_relevant_internship(title, require_fo_keyword=is_large_corp):
+                if not city or not is_relevant_internship(title, require_fo_keyword=True):
                     continue
 
                 rel_date = j.get("releasedDate") or ""
@@ -316,132 +334,204 @@ def fetch_smartrecruiters_jobs(headers):
                 })
                 count += 1
             print(f"[SR-OK] {board['company']}: {len(jobs)} total -> {count} stage(s) EU")
-            time.sleep(0.25)
+            time.sleep(0.3)
         except Exception as e:
             print(f"[SR-ERR] {board['company']}: {e}")
     return collected
 
-def fetch_workday_jobs():
+def fetch_workday_single_shot():
     collected = []
     wd_headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
         "Accept": "application/json",
         "Content-Type": "application/json"
     }
-    search_terms = ["intern", "stage", "off-cycle", "trading", "quant"]
 
     for board in WORKDAY_BOARDS:
         company = board["company"]
-        seen_paths = set()
-        count = 0
-        for term in search_terms:
-            payload = {"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": term}
-            try:
-                resp = requests.post(board["url"], json=payload, headers=wd_headers, timeout=15)
-                if resp.status_code != 200:
-                    print(f"[WD-SKIP] {company} ({term}): HTTP {resp.status_code}")
-                    break
-                postings = resp.json().get("jobPostings", [])
-                for p in postings:
-                    ext_path = p.get("externalPath", "")
-                    if not ext_path or ext_path in seen_paths:
-                        continue
-                    seen_paths.add(ext_path)
-
-                    title = p.get("title", "")
-                    loc_text = p.get("locationsText", "")
-                    city = detect_city(loc_text, title)
-                    if not city or not is_relevant_internship(title, require_fo_keyword=True):
-                        continue
-
-                    job_url = f"{board['base_job_url']}{ext_path}"
-                    slug_id = re.sub(r"[^a-zA-Z0-9]+", "-", ext_path).strip("-")[:60]
-
-                    collected.append({
-                        "id": f"wd-{slug_id}",
-                        "company": company,
-                        "category": board["category"],
-                        "title": title.strip(),
-                        "role": classify_role(title),
-                        "city": city,
-                        "duration": classify_duration(title),
-                        "posted_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-                        "status": "Ouvert",
-                        "url": job_url
-                    })
-                    count += 1
-                time.sleep(0.3)
-            except Exception as e:
-                print(f"[WD-ERR] {company}: {e}")
-                break
-        if count > 0:
-            print(f"[WD-OK] {company}: {count} stage(s) FO EU trouvé(s)")
-    return collected
-
-def fetch_rss_jobs(headers):
-    collected = []
-    for feed in RSS_FEEDS:
-        company = feed["company"]
+        # Single lightweight POST request with 2.5s cooldown to avoid HTTP 429
+        payload = {"appliedFacets": {}, "limit": 50, "offset": 0, "searchText": "intern stage trading"}
         try:
-            resp = requests.get(feed["url"], headers=headers, timeout=15)
+            resp = requests.post(board["url"], json=payload, headers=wd_headers, timeout=20)
             if resp.status_code != 200:
-                print(f"[RSS-SKIP] {company}: HTTP {resp.status_code}")
+                print(f"[WD-SKIP] {company}: HTTP {resp.status_code}")
+                time.sleep(2.0)
                 continue
-            root = ET.fromstring(resp.content)
-            items = root.findall(".//item")
+            postings = resp.json().get("jobPostings", [])
             count = 0
-            for item in items:
-                title = (item.findtext("title") or "").strip()
-                link = (item.findtext("link") or "").strip()
-                desc = (item.findtext("description") or "").strip()
-                pub_date = (item.findtext("pubDate") or "").strip()
-
-                city = detect_city(f"{title} {desc}", title)
+            for p in postings:
+                ext_path = p.get("externalPath", "")
+                if not ext_path:
+                    continue
+                title = p.get("title", "")
+                loc_text = p.get("locationsText", "")
+                city = detect_city(loc_text, title)
                 if not city or not is_relevant_internship(title, require_fo_keyword=True):
                     continue
 
-                posted_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-                if pub_date:
-                    for fmt in ("%a, %d %b %Y %H:%M:%S %z", "%a, %d %b %Y %H:%M:%S GMT"):
-                        try:
-                            posted_date = datetime.strptime(pub_date, fmt).strftime("%Y-%m-%d")
-                            break
-                        except ValueError:
-                            pass
+                job_url = f"{board['base_job_url']}{ext_path}"
+                slug_id = re.sub(r"[^a-zA-Z0-9]+", "-", ext_path).strip("-")[:60]
 
-                uid = re.sub(r"[^a-zA-Z0-9]+", "-", link)[-50:]
                 collected.append({
-                    "id": f"rss-{uid}",
+                    "id": f"wd-{slug_id}",
                     "company": company,
-                    "category": feed["category"],
+                    "category": board["category"],
+                    "title": title.strip(),
+                    "role": classify_role(title),
+                    "city": city,
+                    "duration": classify_duration(title),
+                    "posted_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "status": "Ouvert",
+                    "url": job_url
+                })
+                count += 1
+            print(f"[WD-OK] {company}: {len(postings)} analysées -> {count} stage(s) FO EU")
+            time.sleep(2.5)
+        except Exception as e:
+            print(f"[WD-ERR] {company}: {e}")
+    return collected
+
+def fetch_wttj_french_markets():
+    """Queries Welcome to the Jungle public Algolia index for French banks & energy desks."""
+    collected = []
+    # Public read-only Algolia search credentials used by welcometothejungle.com frontend
+    algolia_url = "https://csekhvms53-dsn.algolia.net/1/indexes/*/queries"
+    algolia_headers = {
+        "X-Algolia-Application-Id": "CSEKHVMS53",
+        "X-Algolia-API-Key": "4bd8f6215d0cc52b26430765769e65a0",
+        "Content-Type": "application/json",
+        "Referer": "https://www.welcometothejungle.com/",
+        "Origin": "https://www.welcometothejungle.com"
+    }
+
+    requests_payload = []
+    for item in WTTJ_QUERIES:
+        params = urllib.parse.urlencode({
+            "query": item["query"],
+            "hitsPerPage": 25,
+            "filters": 'contract_type:"internship" OR contract_type:"vie"'
+        })
+        requests_payload.append({
+            "indexName": "wttj_jobs_production_fr",
+            "params": params
+        })
+
+    try:
+        resp = requests.post(
+            algolia_url,
+            json={"requests": requests_payload},
+            headers=algolia_headers,
+            timeout=20
+        )
+        if resp.status_code != 200:
+            print(f"[WTTJ-SKIP] HTTP {resp.status_code}")
+            return collected
+
+        results = resp.json().get("results", [])
+        seen_slugs = set()
+
+        for idx, res in enumerate(results):
+            q_meta = WTTJ_QUERIES[idx]
+            hits = res.get("hits", [])
+            for h in hits:
+                slug = h.get("slug") or str(h.get("objectID"))
+                if slug in seen_slugs:
+                    continue
+                seen_slugs.add(slug)
+
+                title = (h.get("name") or "").strip()
+                org = h.get("organization") or {}
+                org_name = (org.get("name") or "").strip()
+                org_slug = org.get("slug") or ""
+
+                offices = h.get("offices") or []
+                loc_str = " ".join([f"{o.get('city', '')} {o.get('country', '')}" for o in offices])
+                city = detect_city(loc_str, title)
+                if not city:
+                    continue
+
+                if not is_relevant_internship(title, require_fo_keyword=True):
+                    continue
+
+                matched_company, matched_cat = match_known_french_actor(
+                    org_name,
+                    default_company=q_meta["default_company"] or org_name,
+                    default_cat=q_meta["category"]
+                )
+                if not matched_company:
+                    continue
+
+                pub_at = h.get("published_at") or ""
+                posted_date = pub_at[:10] if len(pub_at) >= 10 else datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                job_url = f"https://www.welcometothejungle.com/fr/companies/{org_slug}/jobs/{slug}" if org_slug else f"https://www.welcometothejungle.com/fr/jobs/{slug}"
+
+                collected.append({
+                    "id": f"wttj-{slug[:55]}",
+                    "company": matched_company,
+                    "category": matched_cat,
                     "title": title,
                     "role": classify_role(title),
                     "city": city,
                     "duration": classify_duration(title),
                     "posted_date": posted_date,
                     "status": "Ouvert",
-                    "url": link
+                    "url": job_url
                 })
-                count += 1
-            print(f"[RSS-OK] {company}: {len(items)} items -> {count} stage(s) FO EU")
-        except Exception as e:
-            print(f"[RSS-ERR] {company}: {e}")
+
+        print(f"[WTTJ-OK] {len(collected)} stage(s) Front Office / Banques FR & Énergie trouvé(s)")
+    except Exception as e:
+        print(f"[WTTJ-ERR] {e}")
+
+    return collected
+
+def fetch_arbeitnow_eu(headers):
+    """Fallback public European job board API (no auth, no rate limit)."""
+    collected = []
+    try:
+        resp = requests.get("https://www.arbeitnow.com/api/job-board-api", headers=headers, timeout=15)
+        if resp.status_code != 200:
+            return collected
+        jobs = resp.json().get("data", [])
+        for j in jobs:
+            title = j.get("title", "")
+            comp = j.get("company_name", "")
+            loc = j.get("location", "")
+            city = detect_city(loc, title)
+            if not city or not is_relevant_internship(title, require_fo_keyword=True):
+                continue
+            matched_comp, matched_cat = match_known_french_actor(comp, default_company=comp, default_cat="Banque")
+            collected.append({
+                "id": f"abn-{j.get('slug', '')[:50]}",
+                "company": matched_comp,
+                "category": matched_cat,
+                "title": title.strip(),
+                "role": classify_role(title),
+                "city": city,
+                "duration": classify_duration(title),
+                "posted_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "status": "Ouvert",
+                "url": j.get("url")
+            })
+        print(f"[ABN-OK] {len(collected)} stage(s) EU trouvé(s)")
+    except Exception as e:
+        print(f"[ABN-ERR] {e}")
     return collected
 
 def main():
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EuroQuantMarketsTracker/1.2"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EuroQuantMarketsTracker/1.3"}
     existing = load_existing_jobs()
     manual_jobs = [
         j for j in existing
-        if not str(j.get("id", "")).startswith(("gh-", "lv-", "sr-", "wd-", "rss-"))
+        if not str(j.get("id", "")).startswith(("gh-", "lv-", "sr-", "wd-", "rss-", "wttj-", "abn-"))
     ]
 
     scraped_jobs = []
     scraped_jobs.extend(fetch_greenhouse_jobs(headers))
     scraped_jobs.extend(fetch_lever_jobs(headers))
     scraped_jobs.extend(fetch_smartrecruiters_jobs(headers))
-    scraped_jobs.extend(fetch_workday_jobs())
-    scraped_jobs.extend(fetch_rss_jobs(headers))
+    scraped_jobs.extend(fetch_wttj_french_markets())
+    scraped_jobs.extend(fetch_workday_single_shot())
+    scraped_jobs.extend(fetch_arbeitnow_eu(headers))
 
     merged_map = {}
     for job in manual_jobs + scraped_jobs:
