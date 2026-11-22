@@ -9,7 +9,7 @@ import requests
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 INTERNSHIPS_FILE = os.path.join(DATA_DIR, "internships.json")
 
-# 1. Greenhouse public boards
+# 1. Greenhouse public boards (100% pure Quant / Market Making / Hedge Fund firms)
 GREENHOUSE_BOARDS = [
     {"token": "optiver", "company": "Optiver", "category": "Market Maker / Prop"},
     {"token": "imc", "company": "IMC Trading", "category": "Market Maker / Prop"},
@@ -37,8 +37,7 @@ SMARTRECRUITERS_BOARDS = [
     {"token": "Trafigura", "company": "Trafigura", "category": "Commodities & Energy"},
 ]
 
-# 4. Welcome to the Jungle (WTTJ) broad French & English Front Office queries
-# Short queries yield high recall across SG, BNPP, CACIB, Natixis, ODDO, TotalEnergies, Engie, etc.
+# 4. Welcome to the Jungle (WTTJ) queries
 WTTJ_QUERIES = [
     {"query": "finance de marché", "default_cat": "Banque"},
     {"query": "salle de marchés", "default_cat": "Banque"},
@@ -57,9 +56,9 @@ WTTJ_QUERIES = [
     {"query": "delta one", "default_cat": "Banque"},
     {"query": "sales trading", "default_cat": "Banque"},
     {"query": "gestion quantitative", "default_cat": "Hedge Fund / Quant"},
-    {"query": "data science finance", "default_cat": "Banque"},
 ]
 
+# Whitelist of legitimate financial, commodities, prop trading, asset management & quant consulting firms
 KNOWN_ACTORS = {
     "societe generale": ("Société Générale (SG CIB)", "Banque"),
     "société générale": ("Société Générale (SG CIB)", "Banque"),
@@ -74,7 +73,10 @@ KNOWN_ACTORS = {
     "cic": ("CIC Market Solutions", "Banque"),
     "crédit mutuel": ("CIC Market Solutions", "Banque"),
     "credit mutuel": ("CIC Market Solutions", "Banque"),
+    "bred": ("BRED Banque Populaire", "Banque"),
     "lcl": ("LCL (Banque des Entreprises / Marchés)", "Banque"),
+    "bpifrance": ("Bpifrance", "Banque"),
+    "caisse des dépôts": ("Caisse des Dépôts", "Banque"),
     "totalenergies": ("TotalEnergies (Trading & Shipping)", "Commodities & Energy"),
     "total energies": ("TotalEnergies (Trading & Shipping)", "Commodities & Energy"),
     "engie": ("ENGIE Global Markets", "Commodities & Energy"),
@@ -91,6 +93,7 @@ KNOWN_ACTORS = {
     "amundi": ("Amundi", "Hedge Fund / Quant"),
     "axa im": ("AXA IM", "Hedge Fund / Quant"),
     "axa investment": ("AXA IM", "Hedge Fund / Quant"),
+    "corum": ("CORUM L'Épargne", "Hedge Fund / Quant"),
     "qrt": ("Qube Research & Technologies (QRT)", "Hedge Fund / Quant"),
     "qube": ("Qube Research & Technologies (QRT)", "Hedge Fund / Quant"),
     "optiver": ("Optiver", "Market Maker / Prop"),
@@ -111,17 +114,32 @@ KNOWN_ACTORS = {
     "morgan stanley": ("Morgan Stanley", "Banque US"),
     "bank of america": ("Bank of America", "Banque US"),
     "citigroup": ("Citigroup", "Banque US"),
-    "citi": ("Citigroup", "Banque US"),
     "rothschild": ("Rothschild & Co", "Banque"),
     "lazard": ("Lazard", "Banque"),
     "euronext": ("Euronext", "Courtier / Broker"),
     "tradition": ("Compagnie Financière Tradition", "Courtier / Broker"),
     "tp icap": ("TP ICAP", "Courtier / Broker"),
+    "talos": ("Talos (Crypto Trading)", "Market Maker / Prop"),
+    "intropic": ("Intropic", "Hedge Fund / Quant"),
+    "weefin": ("WeeFin (ESG Fintech)", "Hedge Fund / Quant"),
+    "meritis": ("Meritis (Finance / Quant)", "Banque"),
+    "murex": ("Murex", "Hedge Fund / Quant"),
 }
+
+# Non-financial companies to explicitly block on open aggregators (WTTJ / Arbeitnow)
+NON_FINANCE_COMPANIES = [
+    "thales", "safran", "mbda", "naval group", "airbus", "dassault",
+    "wavestone", "sopra steria", "accenture", "capgemini", "deloitte", "ey ", "pwc", "kpmg",
+    "l'oréal", "loreal", "pernod ricard", "lacoste", "servier", "essilor", "avril",
+    "vinci", "rte", "bouygues", "saint-gobain", "schneider",
+    "havas", "omnicom", "numberly", "hyperlity", "publicis",
+    "ipsos", "roku", "scality", "hrtechx", "efrei", "alice & bob", "pasqal",
+    "ministère", "ministere", "alvarez & marsal", "afry", "ace énergie"
+]
 
 CITY_PATTERNS = {
     "Paris": [r"\bparis\b", r"\bla d[ée]fense\b", r"\bcourbevoie\b", r"\bputeaux\b", r"\bmontrouge\b", r"\bfrance\b", r"\b[îi]le-de-france\b", r"\bissy-les-moulineaux\b", r"\bneuilly\b", r"\blevallois\b"],
-    "Londres": [r"\blondon\b", r"\blondres\b", r"\bcanary wharf\b", r"\bunited kingdom\b", r"\buk\b", r"\beurope\b"],
+    "Londres": [r"\blondon\b", r"\blondres\b", r"\bcanary wharf\b", r"\bunited kingdom\b", r"\buk\b"],
     "Genève": [r"\bgeneva\b", r"\bgen[eè]ve\b", r"\bswitzerland\b", r"\bsuisse\b"],
     "Amsterdam": [r"\bamsterdam\b", r"\bnetherlands\b", r"\bpays-bas\b"],
     "Francfort": [r"\bfrankfurt\b", r"\bfrancfort\b", r"\bgermany\b", r"\ballemagne\b"],
@@ -131,34 +149,42 @@ CITY_PATTERNS = {
 NON_EU_EXCLUDE = [
     "sydney", "melbourne", "singapore", "hong kong", "tokyo", "shanghai",
     "new york", "chicago", "boston", "houston", "san francisco", "toronto",
-    "mumbai", "bengaluru", "bangalore", "dubai", "austin", "seattle", "pune"
+    "mumbai", "bengaluru", "bangalore", "dubai", "austin", "seattle", "pune",
+    "nantes", "toulouse", "lyon", "bordeaux", "lille", "marseille", "caudry", "inde"
 ]
 
 INTERN_KEYWORDS = [
     "intern", "internship", "stage", "stagiaire", "off-cycle", "off cycle",
     "summer", "graduate", "placement", "trainee", "industrial placement",
     "spring week", "insight", "analyst program", "césure", "cesure", "vie ",
-    "2026", "2027", "assistant trader", "junior trader", "junior quant"
+    "v.i.e", "2026", "2027", "assistant trader", "junior trader", "junior quant"
 ]
 
+# Strict Front Office / Quant / Market Risk keywords (removed generic "market", "sales", "ai", "engineer")
 FRONT_OFFICE_KEYWORDS = [
-    "trading", "trader", "structur", "quant", "quantitative", "market",
-    "commodit", "energy", "oil", "gas", "power", "equity", "derivatives",
-    "delta one", "fixed income", "rates", "fx", "credit", "sales",
-    "data scien", "machine learning", "ai ", "analytics", "strats", "risk",
-    "portfolio", "execution", "algo", "broker", "research", "pricing",
+    "trading", "trader", "structur", "quant", "quantitative", "quantitatif",
+    "commodit", "energy trading", "oil", "gas", "power", "equity", "derivatives",
+    "delta one", "fixed income", "rates", "fx", "credit", "derivatives sales",
+    "sales trading", "sales forex", "sales commodities", "strats", "market risk",
+    "risque de marché", "risques de marché", "risque de crédit", "risque de taux",
+    "valuation risk", "portfolio", "execution", "algo", "broker", "pricing",
     "front office", "salle de march", "produits structur", "matières premières",
-    "énergie", "energie", "dérivés", "derives", "taux", "change", "actions",
-    "finance de march", "trésorerie", "tresorerie", "gestion d'actifs", "asset management",
-    "hedge fund", "arbitrage", "volatilit", "options", "futures", "swaps"
+    "dérivés", "derives", "finance de march", "gestion quantitative", "xva", "ecm", "dcm"
 ]
 
+# Noise & Non-FO / Back-office / Quantum hardware / Media trading exclusions
 EXCLUDE_KEYWORDS = [
     "hr ", "human resources", "recruiter", "talent acquisition", "legal",
     "marketing", "facilities", "receptionist", "office manager", "accounting",
     "payroll", "events", "executive assistant", "pa to", "audit", "compliance",
     "communication", "rh ", "ressources humaines", "juridique", "comptab",
-    "contrôle de gestion", "controle de gestion", "inspecteur", "alternance"
+    "contrôle de gestion", "controle de gestion", "inspecteur", "alternance",
+    "media trader", "digital trader", "social assistant", "achats",
+    "quantique", "quantum", "q-bit", "qubit", "diamant", "spatial", "radar",
+    "dette technique", "gouvernance ia", "power automate", "pentest", "red teaming",
+    "surveillance", "chess academy", "talent community", "financial controller",
+    "chargé d'opérations", "charge d'operations", "gestionnaire operations",
+    "agreement facilitation", "business manager"
 ]
 
 def detect_city(location_str: str, title_str: str = ""):
@@ -170,6 +196,12 @@ def detect_city(location_str: str, title_str: str = ""):
             if re.search(pat, combined):
                 return city
     return None
+
+def is_non_finance_company(org_name: str) -> bool:
+    low = (org_name or "").lower().strip()
+    if low in ("cs", "c.s", "c.s."):
+        return True
+    return any(bad in low for bad in NON_FINANCE_COMPANIES)
 
 def is_relevant_internship(title: str, require_intern_word: bool = True, require_fo_keyword: bool = False) -> bool:
     t = (title or "").lower()
@@ -183,11 +215,11 @@ def is_relevant_internship(title: str, require_intern_word: bool = True, require
 
 def classify_role(title: str) -> str:
     t = (title or "").lower()
-    if any(k in t for k in ["structur", "derivatives sales", "solutions", "sales", "produits structur"]):
+    if any(k in t for k in ["structur", "derivatives sales", "sales forex", "sales commodities", "sales trading", "assistant sales", "produits structur"]):
         return "Structuring"
-    if any(k in t for k in ["quant", "research", "strats", "pricing", "stochastic", "alpha", "quantitatif"]):
+    if any(k in t for k in ["quant", "research", "strats", "pricing", "stochastic", "alpha", "quantitatif", "xva"]):
         return "Quant Research / Dev"
-    if any(k in t for k in ["data scien", "machine learning", "ai ", "analytics", "data engineer", "software", "developer", "engineer"]):
+    if any(k in t for k in ["data scien", "machine learning", "ai ", "analytics", "data engineer", "data analyst", "software", "developer", "it quant", "commando"]):
         return "Data Science & Analytics"
     return "Trading & Market Making"
 
@@ -198,6 +230,8 @@ def classify_duration(title: str) -> str:
     return "Off-cycle / 6 mois"
 
 def match_known_actor(org_name: str, fallback_cat="Banque"):
+    if is_non_finance_company(org_name):
+        return None, None
     low = (org_name or "").lower()
     for key, (clean_name, cat) in KNOWN_ACTORS.items():
         if key in low:
@@ -337,7 +371,7 @@ def fetch_smartrecruiters_jobs(headers):
     return collected
 
 def fetch_wttj_french_markets():
-    """Queries Welcome to the Jungle public Algolia index with broad French/English market terms."""
+    """Queries Welcome to the Jungle public Algolia index with strict Front Office / Finance filtering."""
     collected = []
     algolia_url = "https://csekhvms53-dsn.algolia.net/1/indexes/*/queries"
     algolia_headers = {
@@ -368,12 +402,10 @@ def fetch_wttj_french_markets():
             timeout=25
         )
         if resp.status_code != 200:
-            print(f"[WTTJ-SKIP] HTTP {resp.status_code} - {resp.text[:150]}")
+            print(f"[WTTJ-SKIP] HTTP {resp.status_code}")
             return collected
 
         results = resp.json().get("results", [])
-        total_raw_hits = sum(len(r.get("hits", [])) for r in results)
-        print(f"[WTTJ-RAW] {total_raw_hits} hits bruts reçus sur {len(results)} requêtes")
         seen_slugs = set()
 
         for idx, res in enumerate(results):
@@ -390,6 +422,13 @@ def fetch_wttj_french_markets():
                 org_name = (org.get("name") or "").strip()
                 org_slug = org.get("slug") or ""
 
+                matched_company, matched_cat = match_known_actor(
+                    org_name,
+                    fallback_cat=q_meta["default_cat"]
+                )
+                if not matched_company:
+                    continue
+
                 offices = h.get("offices") or []
                 loc_str = " ".join([f"{o.get('city', '')} {o.get('country', '')}" for o in offices])
                 city = detect_city(loc_str, title)
@@ -397,13 +436,6 @@ def fetch_wttj_french_markets():
                     continue
 
                 if not is_relevant_internship(title, require_intern_word=False, require_fo_keyword=True):
-                    continue
-
-                matched_company, matched_cat = match_known_actor(
-                    org_name,
-                    fallback_cat=q_meta["default_cat"]
-                )
-                if not matched_company:
                     continue
 
                 pub_at = h.get("published_at") or ""
@@ -440,10 +472,12 @@ def fetch_arbeitnow_eu(headers):
             title = j.get("title", "")
             comp = j.get("company_name", "")
             loc = j.get("location", "")
+            matched_comp, matched_cat = match_known_actor(comp, fallback_cat="Banque")
+            if not matched_comp:
+                continue
             city = detect_city(loc, title)
             if not city or not is_relevant_internship(title, require_intern_word=True, require_fo_keyword=True):
                 continue
-            matched_comp, matched_cat = match_known_actor(comp, fallback_cat="Banque")
             collected.append({
                 "id": f"abn-{j.get('slug', '')[:50]}",
                 "company": matched_comp,
@@ -462,7 +496,7 @@ def fetch_arbeitnow_eu(headers):
     return collected
 
 def main():
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EuroQuantMarketsTracker/1.5"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EuroQuantMarketsTracker/1.6"}
     existing = load_existing_jobs()
     manual_jobs = [
         j for j in existing
