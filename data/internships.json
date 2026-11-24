@@ -1,5 +1,65 @@
 [
   {
+    "id": "wttj-stage-business-analyst-moa-gestion-it-front-office-proj",
+    "company": "Crédit Agricole CIB",
+    "category": "Banque",
+    "title": "Stage – Business Analyst MOA Gestion & IT Front office project H/F",
+    "role": "Trading & Market Making",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-24",
+    "status": "Ouvert",
+    "url": "https://www.welcometothejungle.com/fr/companies/groupe-credit-agricole/jobs/stage-business-analyst-moa-gestion-it-front-office-project-h-f_paris"
+  },
+  {
+    "id": "gh-drweng-7957756",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Quantitative Research Intern",
+    "role": "Quant Research / Dev",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-23",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957756"
+  },
+  {
+    "id": "gh-drweng-7957243",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Quantitative Trading Analyst Intern",
+    "role": "Quant Research / Dev",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-23",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957243"
+  },
+  {
+    "id": "gh-drweng-8020364",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Software Developer Intern",
+    "role": "Data Science & Analytics",
+    "city": "Amsterdam",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-23",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/8020364"
+  },
+  {
+    "id": "gh-drweng-7942281",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Software Developer Intern",
+    "role": "Data Science & Analytics",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-23",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/7942281"
+  },
+  {
     "id": "wttj-stage-6-mois-equity-portfolio-manager-assistant-f-h_par",
     "company": "Natixis CIB (Groupe BPCE)",
     "category": "Banque",
@@ -15,7 +75,7 @@
     "id": "wttj-stage-support-structuration-fonction-produit-industriel",
     "company": "LFB",
     "category": "Banque",
-    "title": "Stage - Support structuration fonction produit industriel",
+    "title": "Stage - Structuration fonction chef de produit industriel",
     "role": "Structuring",
     "city": "Paris",
     "duration": "Off-cycle / 6 mois",
@@ -34,42 +94,6 @@
     "posted_date": "2026-11-23",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/groupe-bpce/jobs/stage-6-mois-assistant-investissements-fixed-income-f-h_paris-13e-arrondissement"
-  },
-  {
-    "id": "abn-private-equity-intern-from-april-2027-frankfurt-am",
-    "company": "Comitis Capital",
-    "category": "Banque",
-    "title": "Private Equity Intern (m/f/d) from April 2027",
-    "role": "Trading & Market Making",
-    "city": "Francfort",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-23",
-    "status": "Ouvert",
-    "url": "https://www.arbeitnow.com/jobs/companies/comitis-capital/private-equity-intern-from-april-2027-frankfurt-am-main-482995"
-  },
-  {
-    "id": "abn-graduate-quantitative-researcher-2028-expression-o",
-    "company": "Optiver",
-    "category": "Market Maker / Prop",
-    "title": "Graduate Quantitative Researcher 2028 – Expression of Interest",
-    "role": "Quant Research / Dev",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-23",
-    "status": "Ouvert",
-    "url": "https://www.arbeitnow.nl/jobs/companies/optiverneurips/graduate-quantitative-researcher-2028-expression-of-interest-amsterdam-428978"
-  },
-  {
-    "id": "abn-quantitative-researcher-2027-graduates-amsterdam-2",
-    "company": "Gravitonresearchcapital",
-    "category": "Banque",
-    "title": "Quantitative Researcher - 2027 Graduates",
-    "role": "Quant Research / Dev",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-23",
-    "status": "Ouvert",
-    "url": "https://www.arbeitnow.nl/jobs/companies/gravitonresearchcapital/quantitative-researcher-2027-graduates-amsterdam-298035"
   },
   {
     "id": "wttj-charge-de-financement-structure_la-defense_SG_dKz9GD9",
@@ -190,54 +214,6 @@
     "posted_date": "2026-11-19",
     "status": "Ouvert",
     "url": "https://job-boards.eu.greenhouse.io/imc/jobs/4939846101"
-  },
-  {
-    "id": "gh-drweng-7957756",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Quantitative Research Intern",
-    "role": "Quant Research / Dev",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-19",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957756"
-  },
-  {
-    "id": "gh-drweng-7957243",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Quantitative Trading Analyst Intern",
-    "role": "Quant Research / Dev",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-19",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957243"
-  },
-  {
-    "id": "gh-drweng-7942281",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Software Developer Intern",
-    "role": "Data Science & Analytics",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-19",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/7942281"
-  },
-  {
-    "id": "wttj-stage-trader-assistant-fixed-income-bonds-et-otc-f-h-ja",
-    "company": "BNP Paribas (CIB)",
-    "category": "Banque",
-    "title": "Stage - Trader Assistant(e) Fixed Income Bonds et OTC F/H - Janvier 2027",
-    "role": "Trading & Market Making",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-19",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/bnp-paribas/jobs/stage-trader-assistant-fixed-income-bonds-et-otc-f-h-janvier-2027_puteaux"
   },
   {
     "id": "wttj-stage-6-mois-analyste-risque-de-credit-f-h_paris_NATIX_",
@@ -502,6 +478,18 @@
     "posted_date": "2026-11-09",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/meritis/jobs/it-quant-h-f_paris_MERIT_aYb128"
+  },
+  {
+    "id": "wttj-stage-analyste-financements-structures-immobiliers-f-h_",
+    "company": "La Banque Postale",
+    "category": "Banque",
+    "title": "Stage - Analyste Financements Structurés Immobiliers  F/H",
+    "role": "Structuring",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-09",
+    "status": "Ouvert",
+    "url": "https://www.welcometothejungle.com/fr/companies/la-banque-postale/jobs/stage-analyste-financements-structures-immobiliers-f-h_paris_LBP_7ZwNokk"
   },
   {
     "id": "wttj-stage-6-mois-structuration-secm-f-h_paris_NATIX_rb0RNRr",
@@ -898,18 +886,6 @@
     "posted_date": "2026-09-17",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/talos/jobs/software-engineer-intern-infrastructure_london_t5ixc7me"
-  },
-  {
-    "id": "gh-drweng-8020364",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Software Developer Intern",
-    "role": "Data Science & Analytics",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-09-12",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/8020364"
   },
   {
     "id": "wttj-quantitative-analyst-intern_new-york_viodwmzk",
