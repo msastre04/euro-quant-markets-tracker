@@ -1,5 +1,65 @@
 [
   {
+    "id": "gh-drweng-7957756",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Quantitative Research Intern",
+    "role": "Quant Research / Dev",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-26",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957756"
+  },
+  {
+    "id": "gh-drweng-7957243",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Quantitative Trading Analyst Intern",
+    "role": "Quant Research / Dev",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-26",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957243"
+  },
+  {
+    "id": "gh-drweng-7942281",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Software Developer Intern",
+    "role": "Data Science & Analytics",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-26",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/7942281"
+  },
+  {
+    "id": "wttj-stage-ingenierie-quantitative-produit-structures-cross-",
+    "company": "Crédit Agricole CIB",
+    "category": "Banque",
+    "title": "Stage - Ingénierie quantitative - produit structurés cross assets H/F",
+    "role": "Structuring",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-26",
+    "status": "Ouvert",
+    "url": "https://www.welcometothejungle.com/fr/companies/groupe-credit-agricole/jobs/stage-ingenierie-quantitative-produit-structures-cross-assets-h-f_paris_CA_M2xQR3z"
+  },
+  {
+    "id": "abn-remote-senior-technical-vfx-artist-freelance-talen",
+    "company": "Keywords Intl1",
+    "category": "Banque",
+    "title": "Senior Technical/ VFX Artist - Freelance Talent Pool (2027 Opportunities)",
+    "role": "Trading & Market Making",
+    "city": "Amsterdam",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-26",
+    "status": "Ouvert",
+    "url": "https://www.arbeitnow.nl/jobs/companies/keywords-intl1/remote-senior-technical-vfx-artist-freelance-talent-pool-2027-opportunities-netherlands-243915"
+  },
+  {
     "id": "gh-imc-4912874101",
     "company": "IMC Trading",
     "category": "Market Maker / Prop",
@@ -84,6 +144,30 @@
     "url": "https://job-boards.eu.greenhouse.io/imc/jobs/4939846101"
   },
   {
+    "id": "wttj-analyste-private-equity_paris_SG_edrgL5y",
+    "company": "Société Générale (SG CIB)",
+    "category": "Banque",
+    "title": "Analyste Private Equity",
+    "role": "Trading & Market Making",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-25",
+    "status": "Ouvert",
+    "url": "https://www.welcometothejungle.com/fr/companies/societe-generale/jobs/analyste-private-equity_paris_SG_edrgL5y"
+  },
+  {
+    "id": "wttj-assistant-trader-h-f_montrouge_CAC_1A1dqm5",
+    "company": "Crédit Agricole CIB",
+    "category": "Banque",
+    "title": "Assistant Trader H/F",
+    "role": "Trading & Market Making",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-25",
+    "status": "Ouvert",
+    "url": "https://www.welcometothejungle.com/fr/companies/credit-agricole-cib/jobs/assistant-trader-h-f_montrouge_CAC_1A1dqm5"
+  },
+  {
     "id": "wttj-stage-assistant-sales-trader-fx-ird-f-h_paris-12e-arron",
     "company": "BRED Banque Populaire",
     "category": "Banque",
@@ -94,18 +178,6 @@
     "posted_date": "2026-11-25",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/bred-banque-populaire/jobs/stage-assistant-sales-trader-fx-ird-f-h_paris-12e-arrondissement"
-  },
-  {
-    "id": "wttj-468ca20c-b36a-49f1-9e05-edd2b91c8158",
-    "company": "Able",
-    "category": "Banque",
-    "title": "Stage Business Analyst Private Equity · Fintech SaaS (H/F)",
-    "role": "Trading & Market Making",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-25",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/iguan/jobs/468ca20c-b36a-49f1-9e05-edd2b91c8158"
   },
   {
     "id": "wttj-stage-charge-d-etudes-quantitatives_boulogne-billancour",
@@ -132,18 +204,6 @@
     "url": "https://www.welcometothejungle.com/fr/companies/natixis/jobs/stage-6-mois-commodity-structured-finance-analyst-f-h_paris_NATIX_AK41xVL"
   },
   {
-    "id": "abn-remote-senior-technical-vfx-artist-freelance-talen",
-    "company": "Keywords Intl1",
-    "category": "Banque",
-    "title": "Senior Technical/ VFX Artist - Freelance Talent Pool (2027 Opportunities)",
-    "role": "Trading & Market Making",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-25",
-    "status": "Ouvert",
-    "url": "https://www.arbeitnow.nl/jobs/companies/keywords-intl1/remote-senior-technical-vfx-artist-freelance-talent-pool-2027-opportunities-netherlands-243915"
-  },
-  {
     "id": "wttj-stage-analyste-risques-de-marches-h-f_le-relecq-kerhuon",
     "company": "CIC Market Solutions",
     "category": "Banque",
@@ -154,6 +214,18 @@
     "posted_date": "2026-11-24",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/credit-mutuel-arkea/jobs/stage-analyste-risques-de-marches-h-f_le-relecq-kerhuon"
+  },
+  {
+    "id": "wttj-stagiaire-ecole-f-h-assistant-trader-desk-actions-m-a-s",
+    "company": "CIC Market Solutions",
+    "category": "Banque",
+    "title": "Stagiaire école (F/H) - Assistant trader - Desk Actions / M&A & Situations Spéciales",
+    "role": "Trading & Market Making",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-24",
+    "status": "Ouvert",
+    "url": "https://www.welcometothejungle.com/fr/companies/credit-mutuel-alliance-federale/jobs/stagiaire-ecole-f-h-assistant-trader-desk-actions-m-a-situations-speciales_strasbourg"
   },
   {
     "id": "wttj-assistant-quant-ai-h-f_montrouge",
@@ -180,30 +252,6 @@
     "url": "https://www.welcometothejungle.com/fr/companies/groupe-credit-agricole/jobs/stage-business-analyst-moa-gestion-it-front-office-project-h-f_paris"
   },
   {
-    "id": "gh-drweng-7957756",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Quantitative Research Intern",
-    "role": "Quant Research / Dev",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-23",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957756"
-  },
-  {
-    "id": "gh-drweng-7957243",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Quantitative Trading Analyst Intern",
-    "role": "Quant Research / Dev",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-23",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/7957243"
-  },
-  {
     "id": "gh-drweng-8020364",
     "company": "DRW",
     "category": "Market Maker / Prop",
@@ -214,18 +262,6 @@
     "posted_date": "2026-11-23",
     "status": "Ouvert",
     "url": "https://job-boards.greenhouse.io/drweng/jobs/8020364"
-  },
-  {
-    "id": "gh-drweng-7942281",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Software Developer Intern",
-    "role": "Data Science & Analytics",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-23",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/7942281"
   },
   {
     "id": "wttj-stage-6-mois-equity-portfolio-manager-assistant-f-h_par",
@@ -552,18 +588,6 @@
     "url": "https://www.welcometothejungle.com/fr/companies/meritis/jobs/it-quant-h-f_paris_MERIT_aYb128"
   },
   {
-    "id": "wttj-stage-analyste-financements-structures-immobiliers-f-h_",
-    "company": "La Banque Postale",
-    "category": "Banque",
-    "title": "Stage - Analyste Financements Structurés Immobiliers  F/H",
-    "role": "Structuring",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-09",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/la-banque-postale/jobs/stage-analyste-financements-structures-immobiliers-f-h_paris_LBP_7ZwNokk"
-  },
-  {
     "id": "wttj-stage-6-mois-structuration-secm-f-h_paris_NATIX_rb0RNRr",
     "company": "Natixis CIB (Groupe BPCE)",
     "category": "Banque",
@@ -708,18 +732,6 @@
     "url": "https://www.welcometothejungle.com/fr/companies/natixis/jobs/stage-6-mois-assistant-sales-forex-f-h_paris_NATIX_go3Kde8"
   },
   {
-    "id": "wttj-stage-analyste-quantitatif-h-f_paris",
-    "company": "Crédit Agricole CIB",
-    "category": "Banque",
-    "title": "Stage - Analyste Quantitatif H/F",
-    "role": "Quant Research / Dev",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-10-20",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/groupe-credit-agricole/jobs/stage-analyste-quantitatif-h-f_paris"
-  },
-  {
     "id": "wttj-stage-6-mois-it-quant-equity-f-h_paris",
     "company": "Natixis CIB (Groupe BPCE)",
     "category": "Banque",
@@ -840,18 +852,6 @@
     "url": "https://www.welcometothejungle.com/fr/companies/intropic/jobs/quantrepreneur-engineering_london_efzx2q73"
   },
   {
-    "id": "wttj-stage-6-mois-quantitative-algo-trading-rates-f-h_paris",
-    "company": "Natixis CIB (Groupe BPCE)",
-    "category": "Banque",
-    "title": "Stage - 6 mois - Quantitative Algo Trading - Rates F/H",
-    "role": "Quant Research / Dev",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-10-02",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/natixis/jobs/stage-6-mois-quantitative-algo-trading-rates-f-h_paris"
-  },
-  {
     "id": "wttj-stage-6-mois-it-quant-equity-pricing-f-h_paris",
     "company": "Natixis CIB (Groupe BPCE)",
     "category": "Banque",
@@ -886,18 +886,6 @@
     "posted_date": "2026-10-02",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/natixis/jobs/stage-6-mois-analyste-quantitatif-f-h_paris_NATIX_5k7woDD"
-  },
-  {
-    "id": "wttj-stage-6-mois-valuation-risk-analyste-transverse-f-h_par",
-    "company": "Natixis CIB (Groupe BPCE)",
-    "category": "Banque",
-    "title": "Stage - 6 mois - Valuation Risk Analyste Transverse F/H",
-    "role": "Trading & Market Making",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-09-25",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/natixis/jobs/stage-6-mois-valuation-risk-analyste-transverse-f-h_paris"
   },
   {
     "id": "wttj-software-engineer-intern-trading_london_jovwxvuj",
@@ -958,18 +946,6 @@
     "posted_date": "2026-08-18",
     "status": "Ouvert",
     "url": "https://www.jumptrading.com/hr/job?gh_jid=8000323"
-  },
-  {
-    "id": "gh-jumptrading-7974943",
-    "company": "Jump Trading",
-    "category": "Market Maker / Prop",
-    "title": "Campus UI Software Engineer (Intern)",
-    "role": "Data Science & Analytics",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-08-18",
-    "status": "Ouvert",
-    "url": "https://www.jumptrading.com/hr/job?gh_jid=7974943"
   },
   {
     "id": "wttj-quantrepreneur-business-development_london_fpvrpl4f",
