@@ -1,5 +1,77 @@
 [
   {
+    "id": "gh-imc-5035003101",
+    "company": "IMC Trading",
+    "category": "Market Maker / Prop",
+    "title": "Graduate Risk Analyst",
+    "role": "Trading & Market Making",
+    "city": "Amsterdam",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-27",
+    "status": "Ouvert",
+    "url": "https://job-boards.eu.greenhouse.io/imc/jobs/5035003101"
+  },
+  {
+    "id": "gh-davinciderivatives-4046970101",
+    "company": "Da Vinci Derivatives",
+    "category": "Market Maker / Prop",
+    "title": "Graduate Quant",
+    "role": "Quant Research / Dev",
+    "city": "Amsterdam",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-27",
+    "status": "Ouvert",
+    "url": "https://job-boards.eu.greenhouse.io/davinciderivatives/jobs/4046970101"
+  },
+  {
+    "id": "gh-quberesearchandtechnologies-8926633002",
+    "company": "Qube Research & Technologies (QRT)",
+    "category": "Hedge Fund / Quant",
+    "title": "2027 - Internship, Business Data Analytics",
+    "role": "Data Science & Analytics",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-27",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8926633002"
+  },
+  {
+    "id": "gh-quberesearchandtechnologies-8623972002",
+    "company": "Qube Research & Technologies (QRT)",
+    "category": "Hedge Fund / Quant",
+    "title": "2027 - Internship, Data Engineering",
+    "role": "Data Science & Analytics",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-27",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8623972002"
+  },
+  {
+    "id": "gh-quberesearchandtechnologies-8773447002",
+    "company": "Qube Research & Technologies (QRT)",
+    "category": "Hedge Fund / Quant",
+    "title": "2027 – Internship, Infrastructure Engineer",
+    "role": "Structuring",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-27",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8773447002"
+  },
+  {
+    "id": "gh-drweng-7942281",
+    "company": "DRW",
+    "category": "Market Maker / Prop",
+    "title": "Software Developer Intern",
+    "role": "Data Science & Analytics",
+    "city": "Londres",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-27",
+    "status": "Ouvert",
+    "url": "https://job-boards.greenhouse.io/drweng/jobs/7942281"
+  },
+  {
     "id": "gh-drweng-7957756",
     "company": "DRW",
     "category": "Market Maker / Prop",
@@ -24,16 +96,16 @@
     "url": "https://job-boards.greenhouse.io/drweng/jobs/7957243"
   },
   {
-    "id": "gh-drweng-7942281",
-    "company": "DRW",
-    "category": "Market Maker / Prop",
-    "title": "Software Developer Intern",
-    "role": "Data Science & Analytics",
-    "city": "Londres",
+    "id": "wttj-stage-portfolio-manager-fund-financing-h-f_paris_BP_6Or",
+    "company": "BNP Paribas (CIB)",
+    "category": "Banque",
+    "title": "Stage - Portfolio Manager - Fund Financing - H/F",
+    "role": "Trading & Market Making",
+    "city": "Paris",
     "duration": "Off-cycle / 6 mois",
     "posted_date": "2026-11-26",
     "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/drweng/jobs/7942281"
+    "url": "https://www.welcometothejungle.com/fr/companies/bnp-paribas/jobs/stage-portfolio-manager-fund-financing-h-f_paris_BP_6OrdxZw"
   },
   {
     "id": "wttj-stage-ingenierie-quantitative-produit-structures-cross-",
@@ -46,18 +118,6 @@
     "posted_date": "2026-11-26",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/groupe-credit-agricole/jobs/stage-ingenierie-quantitative-produit-structures-cross-assets-h-f_paris_CA_M2xQR3z"
-  },
-  {
-    "id": "abn-remote-senior-technical-vfx-artist-freelance-talen",
-    "company": "Keywords Intl1",
-    "category": "Banque",
-    "title": "Senior Technical/ VFX Artist - Freelance Talent Pool (2027 Opportunities)",
-    "role": "Trading & Market Making",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-26",
-    "status": "Ouvert",
-    "url": "https://www.arbeitnow.nl/jobs/companies/keywords-intl1/remote-senior-technical-vfx-artist-freelance-talent-pool-2027-opportunities-netherlands-243915"
   },
   {
     "id": "gh-imc-4912874101",
@@ -82,18 +142,6 @@
     "posted_date": "2026-11-25",
     "status": "Ouvert",
     "url": "https://job-boards.eu.greenhouse.io/imc/jobs/4914883101"
-  },
-  {
-    "id": "gh-imc-5035003101",
-    "company": "IMC Trading",
-    "category": "Market Maker / Prop",
-    "title": "Graduate Risk Analyst",
-    "role": "Trading & Market Making",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-25",
-    "status": "Ouvert",
-    "url": "https://job-boards.eu.greenhouse.io/imc/jobs/5035003101"
   },
   {
     "id": "gh-imc-4667814101",
@@ -156,18 +204,6 @@
     "url": "https://www.welcometothejungle.com/fr/companies/societe-generale/jobs/analyste-private-equity_paris_SG_edrgL5y"
   },
   {
-    "id": "wttj-assistant-trader-h-f_montrouge_CAC_1A1dqm5",
-    "company": "Crédit Agricole CIB",
-    "category": "Banque",
-    "title": "Assistant Trader H/F",
-    "role": "Trading & Market Making",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-25",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/credit-agricole-cib/jobs/assistant-trader-h-f_montrouge_CAC_1A1dqm5"
-  },
-  {
     "id": "wttj-stage-assistant-sales-trader-fx-ird-f-h_paris-12e-arron",
     "company": "BRED Banque Populaire",
     "category": "Banque",
@@ -178,6 +214,18 @@
     "posted_date": "2026-11-25",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/bred-banque-populaire/jobs/stage-assistant-sales-trader-fx-ird-f-h_paris-12e-arrondissement"
+  },
+  {
+    "id": "wttj-assistant-trader-h-f_montrouge_CAC_1A1dqm5",
+    "company": "Crédit Agricole CIB",
+    "category": "Banque",
+    "title": "Assistant Trader H/F",
+    "role": "Trading & Market Making",
+    "city": "Paris",
+    "duration": "Off-cycle / 6 mois",
+    "posted_date": "2026-11-25",
+    "status": "Ouvert",
+    "url": "https://www.welcometothejungle.com/fr/companies/credit-agricole-cib/jobs/assistant-trader-h-f_montrouge_CAC_1A1dqm5"
   },
   {
     "id": "wttj-stage-charge-d-etudes-quantitatives_boulogne-billancour",
@@ -214,18 +262,6 @@
     "posted_date": "2026-11-24",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/credit-mutuel-arkea/jobs/stage-analyste-risques-de-marches-h-f_le-relecq-kerhuon"
-  },
-  {
-    "id": "wttj-stagiaire-ecole-f-h-assistant-trader-desk-actions-m-a-s",
-    "company": "CIC Market Solutions",
-    "category": "Banque",
-    "title": "Stagiaire école (F/H) - Assistant trader - Desk Actions / M&A & Situations Spéciales",
-    "role": "Trading & Market Making",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-24",
-    "status": "Ouvert",
-    "url": "https://www.welcometothejungle.com/fr/companies/credit-mutuel-alliance-federale/jobs/stagiaire-ecole-f-h-assistant-trader-desk-actions-m-a-situations-speciales_strasbourg"
   },
   {
     "id": "wttj-assistant-quant-ai-h-f_montrouge",
@@ -334,18 +370,6 @@
     "posted_date": "2026-11-19",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/natixis/jobs/stage-6-mois-analyste-risque-de-credit-f-h_paris_NATIX_5j3N91K"
-  },
-  {
-    "id": "gh-quberesearchandtechnologies-8773447002",
-    "company": "Qube Research & Technologies (QRT)",
-    "category": "Hedge Fund / Quant",
-    "title": "2027 – Graduate or Internship, Infrastructure Engineer",
-    "role": "Structuring",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-18",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8773447002"
   },
   {
     "id": "wttj-analyste-it-commando-fixed-income_montrouge",
@@ -490,18 +514,6 @@
     "posted_date": "2026-11-13",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/credit-mutuel-alliance-federale/jobs/analyste-quantitatif-f-h-risque-de-credit-stagiaire-ecole_paris"
-  },
-  {
-    "id": "gh-davinciderivatives-4046970101",
-    "company": "Da Vinci Derivatives",
-    "category": "Market Maker / Prop",
-    "title": "Graduate Quant",
-    "role": "Quant Research / Dev",
-    "city": "Amsterdam",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-12",
-    "status": "Ouvert",
-    "url": "https://job-boards.eu.greenhouse.io/davinciderivatives/jobs/4046970101"
   },
   {
     "id": "gh-davinciderivatives-4043984101",
@@ -672,18 +684,6 @@
     "url": "https://job-boards.greenhouse.io/flowtraders/jobs/8260920"
   },
   {
-    "id": "gh-quberesearchandtechnologies-8926633002",
-    "company": "Qube Research & Technologies (QRT)",
-    "category": "Hedge Fund / Quant",
-    "title": "2027 - Internship, Business Data Analytics",
-    "role": "Data Science & Analytics",
-    "city": "Londres",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-11-02",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8926633002"
-  },
-  {
     "id": "wttj-ai-developer-intern-portfolio-trading-asset-management_",
     "company": "CORUM L'Épargne",
     "category": "Hedge Fund / Quant",
@@ -790,18 +790,6 @@
     "posted_date": "2026-10-13",
     "status": "Ouvert",
     "url": "https://www.welcometothejungle.com/fr/companies/natixis/jobs/stage-6-mois-business-analyst-it-risques-de-marche-f-h_paris_NATIX_kz5WRDz"
-  },
-  {
-    "id": "gh-quberesearchandtechnologies-8623972002",
-    "company": "Qube Research & Technologies (QRT)",
-    "category": "Hedge Fund / Quant",
-    "title": "2027 - Internship, Data Engineering",
-    "role": "Data Science & Analytics",
-    "city": "Paris",
-    "duration": "Off-cycle / 6 mois",
-    "posted_date": "2026-10-12",
-    "status": "Ouvert",
-    "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8623972002"
   },
   {
     "id": "gh-flowtraders-8266897",
